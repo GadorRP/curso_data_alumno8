@@ -4,14 +4,14 @@ WITH src_promo AS (
     FROM {{ source('sql_server_dbo', 'promos') }}
     ),
 
-renamed_casted AS (
+silver_promo AS (
     SELECT
-          _row
-        , product_id
-        , quantity
-        , month
-        , _fivetran_synced AS date_load
-    FROM src_budget
+        promo_id
+	    , discount
+	    , status
+	    , _fivetran_deleted
+        , _fivetran_synced as date_load
+    FROM src_promo
     )
 
-SELECT * FROM renamed_casted
+SELECT * FROM silver_promo
