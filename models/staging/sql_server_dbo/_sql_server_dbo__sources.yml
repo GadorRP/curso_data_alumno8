@@ -187,6 +187,9 @@ sources:
           - name: product_id
             data_type: varchar
             description: ""
+            tests:
+              - unique
+              - not_null
           
           - name: price
             data_type: float
@@ -219,6 +222,8 @@ sources:
           - name: discount
             data_type: number
             description: ""
+            tests:
+              - positive_values
           
           - name: status
             data_type: varchar
@@ -239,7 +244,10 @@ sources:
           - name: user_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - unique
+              - not_null
+
           - name: updated_at
             data_type: timestamp_tz
             description: ""

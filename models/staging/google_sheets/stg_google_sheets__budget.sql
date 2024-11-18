@@ -7,11 +7,13 @@ WITH src_budget AS (
 
 renamed_casted AS (
     SELECT
-          _row
+          _row as budget_id
         , product_id
-        , quantity
-        , month
-        , _fivetran_synced AS date_load
+        , CASE WHEN quantity = null THEN 0 
+               WHEN quantity < 0 THEN abs(quantity)
+               ELSE quantity END as quantity
+        , convert_timezone('UTC', month) as month_utc
+        , convert_timezone('UTC', _fivetran_synced) as date_load_utc
     FROM src_budget
     )
 
