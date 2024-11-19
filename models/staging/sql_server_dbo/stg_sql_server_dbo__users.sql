@@ -8,10 +8,10 @@ silver_users AS (
           user_id
         , convert_timezone('UTC', updated_at) as updated_at_utc
         , address_id
-        , last_name
+        , lower(last_name) as last_name
         , convert_timezone('UTC', created_at) as created_at_utc
         , phone_number
-        , first_name
+        , lower(first_name) as first_name
         , email
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc

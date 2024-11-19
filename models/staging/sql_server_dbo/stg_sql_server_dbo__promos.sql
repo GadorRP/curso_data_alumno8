@@ -6,7 +6,7 @@ WITH src_promo AS (
 
 silver_promo AS (
     SELECT
-        promo_id as description
+        lower(promo_id) as description
 	    , CASE WHEN discount = null THEN 0 
                ELSE discount END as discount
 	    , status
@@ -17,7 +17,7 @@ silver_promo AS (
     SELECT 
         'sin_promo'
         , 0
-        , 'inactive'
+        , 'active'
         , null
         , null
     )

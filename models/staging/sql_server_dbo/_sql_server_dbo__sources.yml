@@ -23,10 +23,15 @@ sources:
           - name: address_id
             data_type: varchar
             description: ""
+            tests:
+              - unique
+              - not_null
 
           - name: zipcode
             data_type: number
             description: ""
+            tests:
+              - positive_values
 
           - name: country
             data_type: varchar
@@ -55,6 +60,9 @@ sources:
           - name: event_id
             data_type: varchar
             description: ""
+            tests:
+              - unique
+              - not_null
           
           - name: page_url
             data_type: varchar
@@ -255,6 +263,10 @@ sources:
           - name: address_id
             data_type: varchar
             description: ""
+            tests:
+              - relationships:
+                  field: address_id
+                  to: source('sql_server_db','addresses')
           
           - name: last_name
             data_type: varchar
