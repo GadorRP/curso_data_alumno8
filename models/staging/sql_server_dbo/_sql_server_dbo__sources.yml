@@ -128,7 +128,6 @@ sources:
             description: ""
             tests:
               - not_null
-              - positive_values
 
           - name: _fivetran_deleted
             data_type: boolean

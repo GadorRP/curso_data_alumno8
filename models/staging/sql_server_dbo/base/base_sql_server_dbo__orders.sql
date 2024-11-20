@@ -6,7 +6,8 @@ WITH src_orders AS (
 silver_orders AS (
     SELECT
         order_id
-        , CASE WHEN shipping_service = null THEN ' '
+        , CASE WHEN shipping_service = '' THEN 'unassigned'
+            WHEN shipping_service = null THEN 'unassigned'
             ELSE shipping_service END AS shipping_service
         , shipping_cost
         , address_id
