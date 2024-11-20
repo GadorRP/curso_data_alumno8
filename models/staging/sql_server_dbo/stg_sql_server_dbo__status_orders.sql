@@ -1,15 +1,15 @@
-WITH src_promo AS (
+WITH src_orders AS (
     SELECT *
-    FROM {{ source('sql_server_dbo', 'promos') }}
+    FROM {{ source('sql_server_dbo', 'orders') }}
     ),
 
-silver_status_promos AS (
+silver_status_orders AS (
     SELECT 
         distinct status as description
-    FROM src_promo
+    FROM src_orders
     )
 
 SELECT 
     {{ dbt_utils.generate_surrogate_key(['description']) }} as status_id
     , description
-FROM silver_status_promos
+FROM silver_status_orders

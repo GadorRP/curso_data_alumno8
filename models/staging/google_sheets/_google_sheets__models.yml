@@ -3,7 +3,7 @@ version: 2
 models:
   - name: budget
     columns:
-      - name: _row
+      - name: budget_id
         tests:
           - not_null
           - unique

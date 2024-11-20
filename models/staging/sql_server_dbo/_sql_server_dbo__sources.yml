@@ -14,7 +14,7 @@ sources:
     freshness:
       warn_after: { count: 24, period: hour }
       error_after: { count: 480, period: hour }
-    
+
     tables:
       - name: addresses
         description: ""
@@ -52,7 +52,8 @@ sources:
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
-
+            tests:
+              - not_null
       - name: events
         description: ""
         loaded_at_field: _fivetran_synced
@@ -63,42 +64,45 @@ sources:
             tests:
               - unique
               - not_null
-          
+
           - name: page_url
             data_type: varchar
             description: ""
-          
+
           - name: event_type
             data_type: varchar
             description: ""
-          
+
           - name: user_id
             data_type: varchar
             description: ""
-          
+            
+
           - name: product_id
             data_type: varchar
             description: ""
-          
+
           - name: session_id
             data_type: varchar
             description: ""
-          
+
           - name: created_at
             data_type: timestamp_ntz
             description: ""
-          
+
           - name: order_id
             data_type: varchar
             description: ""
-          
+
           - name: _fivetran_deleted
             data_type: boolean
             description: ""
-          
+
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
+            tests:
+              - not_null
 
       - name: order_items
         description: ""
@@ -107,22 +111,34 @@ sources:
           - name: order_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - not_null
+
           - name: product_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - relationships:
+                  field: product_id
+                  to: source('sql_server_dbo','products')
+              - not_null
+
           - name: quantity
             data_type: number
             description: ""
-          
+            tests:
+              - not_null
+              - positive_values
+
           - name: _fivetran_deleted
             data_type: boolean
             description: ""
-          
+
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
+            tests:
+              - not_null
 
       - name: orders
         description: ""
@@ -131,62 +147,76 @@ sources:
           - name: order_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - not_null
+              - unique
+
           - name: shipping_service
             data_type: varchar
             description: ""
-          
+
           - name: shipping_cost
             data_type: float
             description: ""
-          
+
           - name: address_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - relationships:
+                  field: address_id
+                  to: source('sql_server_dbo','addresses')
+
           - name: created_at
             data_type: timestamp_tz
             description: ""
-          
+
           - name: promo_id
             data_type: varchar
             description: ""
-          
+
           - name: estimated_delivery_at
             data_type: timestamp_tz
             description: ""
-          
+
           - name: order_cost
             data_type: float
             description: ""
-          
+
           - name: user_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - not_null
+              - relationships:
+                  field: user_id
+                  to: source('sql_server_dbo','users')
+
           - name: order_total
             data_type: float
             description: ""
-          
+
           - name: delivered_at
             data_type: timestamp_tz
             description: ""
-          
+
           - name: tracking_id
             data_type: varchar
             description: ""
-          
+
           - name: status
             data_type: varchar
             description: ""
-          
+
           - name: _fivetran_deleted
             data_type: boolean
             description: ""
-          
+
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
+            tests:
+              - not_null
 
       - name: products
         description: ""
@@ -198,26 +228,32 @@ sources:
             tests:
               - unique
               - not_null
-          
+
           - name: price
             data_type: float
             description: ""
-          
+            tests:
+              - positive_values
+
           - name: name
             data_type: varchar
             description: ""
-          
+            tests:
+              - not_null
+
           - name: inventory
             data_type: number
             description: ""
-          
+
           - name: _fivetran_deleted
             data_type: boolean
             description: ""
-          
+
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
+            tests:
+              - not_null
 
       - name: promos
         description: ""
@@ -226,24 +262,30 @@ sources:
           - name: promo_id
             data_type: varchar
             description: ""
-          
+            tests:
+              - not_null
+
           - name: discount
             data_type: number
             description: ""
             tests:
               - positive_values
-          
+
           - name: status
             data_type: varchar
             description: ""
-          
+            tests:
+              - not_null
+
           - name: _fivetran_deleted
             data_type: boolean
             description: ""
-          
+
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
+            tests:
+              - not_null
 
       - name: users
         description: ""
@@ -259,43 +301,47 @@ sources:
           - name: updated_at
             data_type: timestamp_tz
             description: ""
-          
+
           - name: address_id
             data_type: varchar
             description: ""
             tests:
               - relationships:
-                  field: address_id
-                  to: source('sql_server_db','addresses')
-          
+                    field: address_id
+                    to: source('sql_server_dbo','addresses')
+
           - name: last_name
             data_type: varchar
             description: ""
-          
+
           - name: created_at
             data_type: timestamp_tz
             description: ""
-          
+            tests:
+              - not_null
+
           - name: phone_number
             data_type: varchar
             description: ""
-          
+
           - name: total_orders
             data_type: number
             description: ""
-          
+
           - name: first_name
             data_type: varchar
             description: ""
-          
+
           - name: email
             data_type: varchar
             description: ""
-          
+
           - name: _fivetran_deleted
             data_type: boolean
             description: ""
-          
+
           - name: _fivetran_synced
             data_type: timestamp_tz
             description: ""
+            tests:
+              - not_null
