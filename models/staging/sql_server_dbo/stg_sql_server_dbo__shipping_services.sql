@@ -10,6 +10,6 @@ silver_status_orders AS (
     )
 
 SELECT 
-    {{ dbt_utils.generate_surrogate_key(['description']) }} as status_id
+    {{ dbt_utils.generate_surrogate_key(['description']) }} as shipping_services_id
     , description
 FROM silver_status_orders

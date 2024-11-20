@@ -3,7 +3,6 @@ WITH src_orders AS (
     FROM {{ source('sql_server_dbo', 'orders') }}
     ),
 
-
 silver_orders AS (
     SELECT
         order_id
@@ -26,7 +25,7 @@ silver_orders AS (
     FROM src_orders
     ),
 
-hash_orders(
+hash_orders AS (
     SELECT 
     order_id
         , {{ dbt_utils.generate_surrogate_key(['shipping_service']) }} as shipping_service_id
