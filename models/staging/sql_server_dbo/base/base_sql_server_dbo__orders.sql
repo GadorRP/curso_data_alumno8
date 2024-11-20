@@ -11,7 +11,7 @@ silver_orders AS (
             ELSE shipping_service END AS shipping_service
         , shipping_cost
         , address_id
-        , convert_timezone('UTC', created_at) as created_at_utc
+        , convert_timezone('UTC',created_at) as created_at_utc
         , CASE WHEN promo_id != null THEN promo_id
                 ELSE 'sin_promo' END AS promo_id
         , convert_timezone('UTC', estimated_delivery_at) as estimated_delivery_at_utc
@@ -19,7 +19,8 @@ silver_orders AS (
         , user_id
         , order_total
         , convert_timezone('UTC', delivered_at) as delivered_at_utc
-        , tracking_id
+        , CASE WHEN tracking_id = '' THEN null
+                ELSE tracking_id END AS tracking_id
         , status
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
