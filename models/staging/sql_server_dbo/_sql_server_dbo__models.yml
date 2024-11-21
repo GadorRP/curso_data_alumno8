@@ -1,0 +1,228 @@
+
+version: 2
+
+models:
+  - name: stg_sql_server_dbo__addresses
+    description: "Data about addresess"
+    columns:
+      - name: address_id
+        data_type: varchar
+        description: "UUID of each address"
+
+      - name: zipcode
+        data_type: varchar
+        description: "Zipcode of the address"
+
+      - name: country
+        data_type: varchar
+        description: "Country where the address is located"
+
+      - name: address
+        data_type: varchar
+        description: "Street and number of the address"
+
+      - name: state
+        data_type: varchar
+        description: "State or province where the address is located"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Boolean representing if the data was deleted"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Date that the data was loaded"
+
+  - name: stg_sql_server_dbo__shipping_services
+    description: "Data about the shipping services of the orders"
+    columns:
+      - name: shipping_services_id
+        data_type: varchar
+        description: "UUID for each unique shipping service on platform"
+
+      - name: description
+        data_type: varchar
+        description: "Name of the shipping service"
+
+  - name: stg_sql_server_dbo__status_orders
+    description: ""
+    columns:
+      - name: status_id
+        data_type: varchar
+        description: "UUID for each unique order status on platform"
+
+      - name: description
+        data_type: varchar
+        description: "Name of the status"
+
+  - name: stg_sql_server_dbo__products
+    description: ""
+    columns:
+      - name: product_id
+        data_type: varchar
+        description: "UUID for each unique product on platform"
+
+      - name: price
+        data_type: float
+        description: "Price of the product"
+
+      - name: description
+        data_type: varchar
+        description: "Name of the product"
+
+      - name: inventory
+        data_type: number
+        description: "Indicates the unities of the product"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Boolean representing if the data was deleted"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Date that the data was loaded"
+
+  - name: stg_sql_server_dbo__promos
+    description: ""
+    columns:
+      - name: promo_id
+        data_type: varchar
+        description: ""
+
+      - name: description
+        data_type: varchar
+        description: ""
+
+      - name: discount
+        data_type: number
+        description: ""
+
+      - name: status_id
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: stg_sql_server_dbo__status_promos
+    description: ""
+    columns:
+      - name: status_id
+        data_type: varchar
+        description: ""
+
+      - name: description
+        data_type: varchar
+        description: ""
+
+  - name: stg_sql_server_dbo__users
+    description: ""
+    columns:
+      - name: user_id
+        data_type: varchar
+        description: ""
+
+      - name: updated_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: address_id
+        data_type: varchar
+        description: ""
+
+      - name: last_name
+        data_type: varchar
+        description: ""
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: phone_number
+        data_type: varchar
+        description: ""
+
+      - name: first_name
+        data_type: varchar
+        description: ""
+
+      - name: email
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: stg_sql_server_dbo__orders
+    description: ""
+    columns:
+      - name: order_id
+        data_type: varchar
+        description: ""
+
+      - name: shipping_service_id
+        data_type: varchar
+        description: ""
+
+      - name: shipping_cost
+        data_type: float
+        description: ""
+
+      - name: address_id
+        data_type: varchar
+        description: ""
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: promo_id
+        data_type: varchar
+        description: ""
+
+      - name: estimated_delivery_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: order_cost
+        data_type: float
+        description: ""
+
+      - name: user_id
+        data_type: varchar
+        description: ""
+
+      - name: order_total
+        data_type: float
+        description: ""
+
+      - name: delivered_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: tracking_id
+        data_type: varchar
+        description: ""
+
+      - name: status_id
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
