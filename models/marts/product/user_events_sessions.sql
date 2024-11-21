@@ -13,29 +13,16 @@ stg_users as (
     FROM {{ref('stg_sql_server_dbo__users')}}
 ),
 
-rank_event as (
-    select
-        session_id,
-        created_at,
-        RANK() OVER (PARTITION BY session_id ORDER BY created_at ) AS ranking_events  
+first_last_event_time AS (
+    select 
+        session_id
+        , user_id
+        , min(created_at) as first_event_time_utc
+        , max(created_at) as last_event_time_utc
     from stg_event
+    group by session_id, user_id
 ),
 
-first_event as (
-    select
-        session_id,
-        min(ranking_events) as first_event_time_utc,
-    from rank_event
-    group by session_id
-),
-
-last_event as (
-    select
-        session_id,
-        max(ranking_events) as last_event_time_utc,
-    from rank_event
-    group by session_id
-),
 
 events_int as (
     select 
@@ -69,21 +56,20 @@ num_events as (
 
 select 
     num.session_id
-    , users.user_id
+    , num.user_id
     , first_name
     , email
     , first_event_time_utc
     , last_event_time_utc
-    , (last_event_time_utc - first_event_time_utc) as session_lenght_minutes
+    , TIMESTAMPDIFF(MINUTE, first_event_time_utc, last_event_time_utc) as session_lenght_minutes
     , page_view
     , add_to_cart
     , checkout
     , package_shipped
     from num_events num
-    join first_event fir
-    on num.session_id = fir.session_id
-    join last_event le
-    on le.session_id = num.session_id
+    join first_last_event_time fl
+    on fl.session_id = num.session_id
     join stg_users users
     on users.user_id = num.user_id
+    
  
