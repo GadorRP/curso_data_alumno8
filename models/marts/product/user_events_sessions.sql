@@ -17,8 +17,8 @@ first_last_event_time AS (
     select 
         session_id
         , user_id
-        , min(created_at) as first_event_time_utc
-        , max(created_at) as last_event_time_utc
+        , min(created_at_utc) as first_event_time_utc
+        , max(created_at_utc) as last_event_time_utc
     from stg_event
     group by session_id, user_id
 ),
