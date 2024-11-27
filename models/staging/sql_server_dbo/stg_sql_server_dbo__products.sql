@@ -6,7 +6,7 @@ WITH src_products AS (
 silver_products AS (
     SELECT
         product_id
-        , price
+        , {{ set_positive_values('price')}} as price
         , lower(name) as description
         , inventory
         , _fivetran_deleted as is_deleted

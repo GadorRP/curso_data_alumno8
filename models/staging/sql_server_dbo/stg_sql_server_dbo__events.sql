@@ -9,10 +9,12 @@ silver_events AS (
         , page_url
         , {{ dbt_utils.generate_surrogate_key(['event_type']) }} as event_type_id
         , user_id
-        , product_id
+        , CASE WHEN product_id = null THEN ''
+            ELSE product_id END as product_id
         , session_id
         , convert_timezone('UTC', created_at) as created_at_utc
-        , order_id
+        , CASE WHEN order_id = null THEN ''
+            ELSE order_id END as order_id
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
     FROM src_events

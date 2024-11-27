@@ -6,7 +6,7 @@ WITH src_addresses AS (
 silver_addresses AS (
     SELECT
         address_id
-        ,  lower(zipcode) as zipcode
+        ,  zipcode
         ,  lower(country) as country
         ,  lower(address) as address
         ,  lower(state) as state

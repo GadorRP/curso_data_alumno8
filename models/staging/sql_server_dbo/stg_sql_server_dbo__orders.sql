@@ -6,7 +6,7 @@ WITH base_orders AS (
 silver_orders AS (
     SELECT 
     order_id
-        , shipping_service_id
+        , {{ dbt_utils.generate_surrogate_key(['shipping_service']) }} as shipping_service_id
         , address_id
         , created_at_utc
         , promo_id

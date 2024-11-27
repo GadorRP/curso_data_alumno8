@@ -19,7 +19,7 @@ silver_promo AS (
         , 0
         , 'active'
         , null
-        , null
+        , convert_timezone('UTC', current_timestamp()) --incluimos la fecha de carga del momento actual
     )
 
 SELECT 

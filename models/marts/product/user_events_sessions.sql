@@ -52,9 +52,10 @@ num_events as (
     , sum(package_shipped) as package_shipped
     from events_int
     group by session_id, user_id
-)
+),
 
-select 
+user_events_sessions as (
+    select 
     num.session_id
     , num.user_id
     , first_name
@@ -71,5 +72,8 @@ select
     on fl.session_id = num.session_id
     join stg_users users
     on users.user_id = num.user_id
+)
+
+select * from user_events_sessions
     
  

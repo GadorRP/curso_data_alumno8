@@ -12,7 +12,7 @@ silver_orders AS (
         , shipping_cost
         , address_id
         , convert_timezone('UTC',created_at) as created_at_utc
-        , CASE WHEN promo_id != null THEN promo_id
+        , CASE WHEN promo_id != '' THEN lower(promo_id)
                 ELSE 'sin_promo' END AS promo_id
         , convert_timezone('UTC', estimated_delivery_at) as estimated_delivery_at_utc
         , order_cost
@@ -30,7 +30,7 @@ silver_orders AS (
 hash_orders AS (
     SELECT 
     order_id
-        , {{ dbt_utils.generate_surrogate_key(['shipping_service']) }} as shipping_service_id
+        , shipping_service
         , shipping_cost
         , address_id
         , created_at_utc

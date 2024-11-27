@@ -3,23 +3,23 @@ version: 2
 
 models:
   - name: stg_sql_server_dbo__addresses
-    description: "Data about addresess"
+    description: "Datos sobre las direcciones"
     columns:
       - name: address_id
         data_type: varchar
-        description: "UUID of each address"
+        description: "UUID de cada direccion"
 
       - name: zipcode
         data_type: varchar
-        description: "Zipcode of the address"
+        description: "Codigo postal de cada direccion"
 
       - name: country
         data_type: varchar
-        description: "Country where the address is located"
+        description: "Pais en el que está ubicada la dirección"
 
       - name: address
         data_type: varchar
-        description: "Street and number of the address"
+        description: "Numero y calle de la direccion"
 
       - name: state
         data_type: varchar
