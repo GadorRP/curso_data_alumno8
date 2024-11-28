@@ -6,21 +6,17 @@ WITH src_orders AS (
 silver_orders AS (
     SELECT
         order_id
-        , CASE WHEN shipping_service = '' THEN 'unassigned'
-            WHEN shipping_service = null THEN 'unassigned'
-            ELSE shipping_service END AS shipping_service
+        , {{ replace_with('shipping_service', '', 'unassigned', true)}} as shipping_service
         , shipping_cost
         , address_id
         , convert_timezone('UTC',created_at) as created_at_utc
-        , CASE WHEN promo_id != '' THEN lower(promo_id)
-                ELSE 'sin_promo' END AS promo_id
+        , lower({{replace_with('promo_id','','sin_promo',true)}}) AS promo_id
         , convert_timezone('UTC', estimated_delivery_at) as estimated_delivery_at_utc
         , order_cost
         , user_id
         , order_total
         , convert_timezone('UTC', delivered_at) as delivered_at_utc
-        , CASE WHEN tracking_id = '' THEN null
-                ELSE tracking_id END AS tracking_id
+        , {{replace_with('tracking_id','','unnasigned',true)}} as tracking_id
         , status
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc

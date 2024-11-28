@@ -8,8 +8,7 @@ silver_order_items AS (
         {{ dbt_utils.generate_surrogate_key(['order_id','product_id']) }} as order_item_id
         , order_id
         , product_id
-        , CASE WHEN quantity < 0 THEN ABS(quantity)
-            ELSE quantity END as quantity
+        , {{ set_positive_values('quantity') }} as quantity
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
     FROM src_order_items

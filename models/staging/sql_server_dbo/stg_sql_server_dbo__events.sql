@@ -20,4 +20,15 @@ silver_events AS (
     FROM src_events
     )
 
-SELECT * FROM silver_events
+SELECT 
+    event_id
+        , page_url
+        , event_type_id
+        , user_id
+        , {{replace_with('product_id', '','sin_producto',true)}} as product_id
+        , session_id
+        , created_at_utc
+        , {{replace_with('order_id', '','sin pedido',true)}} as order_id
+        , is_deleted
+        , date_load_utc
+FROM silver_events

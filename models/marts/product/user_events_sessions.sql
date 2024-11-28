@@ -1,16 +1,16 @@
-WITH stg_event as (
+WITH fct_events as (
     SELECT   *
-    FROM {{ ref('stg_sql_server_dbo__events') }}
+    FROM {{ ref('fct_events') }}
 ),
 
-stg_event_type as (
+dim_event_type as (
     SELECT  *
-    FROM {{ref('stg_sql_server_dbo__event_type')}}
+    FROM {{ref('dim_event_type')}}
 ),
 
-stg_users as (
+dim_users as (
     SELECT  *
-    FROM {{ref('stg_sql_server_dbo__users')}}
+    FROM {{ref('dim_users')}}
 ),
 
 first_last_event_time AS (
@@ -19,7 +19,7 @@ first_last_event_time AS (
         , user_id
         , min(created_at_utc) as first_event_time_utc
         , max(created_at_utc) as last_event_time_utc
-    from stg_event
+    from fct_events
     group by session_id, user_id
 ),
 
@@ -37,8 +37,8 @@ events_int as (
         ELSE 0 END as add_to_cart
     , CASE WHEN description = 'page_view' then 1
         ELSE 0 END as page_view 
-    from stg_event ev
-    join stg_event_type et
+    from fct_events ev
+    join dim_event_type et
     on ev.event_type_id = et.event_type_id
 ),
 
@@ -70,7 +70,7 @@ user_events_sessions as (
     from num_events num
     join first_last_event_time fl
     on fl.session_id = num.session_id
-    join stg_users users
+    join dim_users users
     on users.user_id = num.user_id
 )
 

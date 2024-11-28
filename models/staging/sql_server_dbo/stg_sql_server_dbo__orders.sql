@@ -10,6 +10,9 @@ silver_orders AS (
         , address_id
         , created_at_utc
         , promo_id
+        , shipping_cost
+        , order_cost
+        , order_total
         , estimated_delivery_at_utc
         , user_id
         , delivered_at_utc

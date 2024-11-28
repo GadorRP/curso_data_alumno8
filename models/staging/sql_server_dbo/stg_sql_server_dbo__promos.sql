@@ -7,8 +7,7 @@ WITH src_promo AS (
 silver_promo AS (
     SELECT
         lower(promo_id) as description
-	    , CASE WHEN discount = null THEN 0 
-               ELSE discount END as discount
+	    , coalesce(discount,0) as discount
 	    , status
 	    , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc

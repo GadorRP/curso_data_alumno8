@@ -174,12 +174,14 @@ sources:
           - name: shipping_service
             data_type: varchar
             description: "Compañía de envío asignada"
+            tests:
+              - not_null #si no lo tiene asignado se introduce vacío
 
           - name: shipping_cost
             data_type: float
             description: "Porte del envío"
             tests:
-              - not_null
+              - not_null 
 
           - name: address_id
             data_type: varchar
@@ -208,7 +210,7 @@ sources:
             data_type: float
             description: "Precio del pedido sin envío"
             tests:
-              - not_nul
+              - not_null
 
           - name: user_id
             data_type: varchar
