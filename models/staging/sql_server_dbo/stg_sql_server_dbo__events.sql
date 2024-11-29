@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='event_id',
+    )
+}}
+
 WITH src_events AS (
     SELECT *
     FROM {{ source('sql_server_dbo', 'events') }}
@@ -7,7 +14,7 @@ silver_events AS (
     SELECT 
         event_id
         , page_url
-        , {{ dbt_utils.generate_surrogate_key(['event_type']) }} as event_type_id
+        , event_type
         , user_id
         , CASE WHEN product_id = null THEN ''
             ELSE product_id END as product_id
@@ -23,7 +30,7 @@ silver_events AS (
 SELECT 
     event_id
         , page_url
-        , event_type_id
+        , event_type
         , user_id
         , {{replace_with('product_id', '','sin_producto',true)}} as product_id
         , session_id
@@ -32,3 +39,9 @@ SELECT
         , is_deleted
         , date_load_utc
 FROM silver_events
+
+{% if is_incremental() %}
+
+    where date_load_utc >= (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

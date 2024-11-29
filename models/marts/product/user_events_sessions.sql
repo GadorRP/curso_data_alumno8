@@ -3,11 +3,6 @@ WITH fct_events as (
     FROM {{ ref('fct_events') }}
 ),
 
-dim_event_type as (
-    SELECT  *
-    FROM {{ref('dim_event_type')}}
-),
-
 dim_users as (
     SELECT  *
     FROM {{ref('dim_users')}}
@@ -28,18 +23,16 @@ events_int as (
     select 
     session_id
     , user_id
-    , description as event_type
-    , CASE WHEN description = 'checkout' then 1
+    , event_type
+    , CASE WHEN event_type = 'checkout' then 1
         ELSE 0 END as checkout 
-    , CASE WHEN description = 'package_shipped' then 1
+    , CASE WHEN event_type = 'package_shipped' then 1
         ELSE 0 END as package_shipped
-    , CASE WHEN description = 'add_to_cart' then 1
+    , CASE WHEN event_type = 'add_to_cart' then 1
         ELSE 0 END as add_to_cart
-    , CASE WHEN description = 'page_view' then 1
+    , CASE WHEN event_type = 'page_view' then 1
         ELSE 0 END as page_view 
     from fct_events ev
-    join dim_event_type et
-    on ev.event_type_id = et.event_type_id
 ),
 
 num_events as (

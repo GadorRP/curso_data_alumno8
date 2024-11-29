@@ -8,7 +8,7 @@ dim_promos as (
     promo_id
     , description
     , discount
-    , status_id
+    , status
     , is_deleted
     , date_load_utc
     FROM stg_promos

@@ -1,3 +1,11 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'order_id'
+    ) 
+}}
+
+
 WITH base_orders AS (
     SELECT * 
     FROM {{ ref("base_sql_server_dbo__orders") }}
@@ -17,10 +25,16 @@ silver_orders AS (
         , user_id
         , delivered_at_utc
         , tracking_id
-        , status_id
+        , status
         , is_deleted
         , date_load_utc
     FROM base_orders
 )
 
 select * from silver_orders
+
+{% if is_incremental() %}
+
+    where date_load_utc >= (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

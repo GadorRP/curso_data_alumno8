@@ -1,4 +1,9 @@
-
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'budget_id'
+    ) 
+}}
 
 WITH src_budget AS (
     SELECT * 
@@ -16,3 +21,9 @@ renamed_casted AS (
     )
 
 SELECT * FROM renamed_casted
+
+{% if is_incremental() %}
+
+    where date_load_utc >= (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

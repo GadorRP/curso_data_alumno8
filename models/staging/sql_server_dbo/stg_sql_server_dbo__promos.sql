@@ -25,7 +25,7 @@ SELECT
       {{ dbt_utils.generate_surrogate_key(['description']) }} as promo_id
     , description
     , discount
-    , {{ dbt_utils.generate_surrogate_key(['status']) }} as status_id
+    , status
     , is_deleted
     , date_load_utc
 FROM silver_promo

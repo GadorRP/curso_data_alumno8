@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key='order_id',
+    )
+}}
+
 WITH src_orders AS (
     SELECT * 
     FROM {{ source('sql_server_dbo', 'orders') }}
@@ -37,10 +44,16 @@ hash_orders AS (
         , order_total
         , delivered_at_utc
         , tracking_id
-        , {{ dbt_utils.generate_surrogate_key(['status']) }} as status_id
+        , status
         , is_deleted
         , date_load_utc
     FROM silver_orders
 )
 
 select * from hash_orders
+
+{% if is_incremental() %}
+
+    where date_load_utc >= (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
