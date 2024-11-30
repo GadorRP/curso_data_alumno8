@@ -25,7 +25,7 @@ dim_orders as (
         , user_id
         , tracking_id
         , address_id
-        , description as shipping_service
+        , name as shipping_service
         , estimated_delivery_at_utc
         , delivered_at_utc
         , abs(tiempo_delay) as delivery_variation

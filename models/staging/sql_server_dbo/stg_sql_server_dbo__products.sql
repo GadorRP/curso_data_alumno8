@@ -12,7 +12,6 @@ silver_products AS (
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
     FROM src_products
-    
     )
 
 SELECT * FROM silver_products

@@ -39,6 +39,9 @@ models:
       - name: shipping_services_id
         data_type: varchar
         description: "UUID for each unique shipping service on platform"
+        tests:
+          - not_null
+          - unique
 
       - name: description
         data_type: varchar
@@ -77,6 +80,9 @@ models:
       - name: promo_id
         data_type: varchar
         description: "UUID de la promocion"
+        tests:
+          - unique
+          - not_null
 
       - name: description
         data_type: varchar
@@ -258,6 +264,37 @@ models:
       - name: order_id
         data_type: varchar
         description: "UUID del pedido al que pertenece el artículo"
+
+      - name: product_id
+        data_type: varchar
+        description: "UUID del producto incluido en el pedido"
+
+      - name: quantity
+        data_type: number
+        description: "Cantidad del producto en el pedido"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+
+
+  - name: stg_sql_server_dbo__shipping_services
+    description: "contiene los diferentes servicios de envio"
+    columns:
+      - name: shipping_service_id
+        data_type: varchar
+        description: "UUID de cada servicio"
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        data_type: varchar
+        description: "Nombre del servicio de envío"
 
       - name: product_id
         data_type: varchar
