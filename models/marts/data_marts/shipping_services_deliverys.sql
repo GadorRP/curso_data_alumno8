@@ -4,6 +4,10 @@
     ) 
 }}
 
+-- vista que muestra si las entregas realizadas se han hecho a tiempo,
+-- ademas de mostrar el promedio de dias de retraso  o adelanto 
+-- desglosando por shipping service
+
 WITH dim_shipping_services as (
     SELECT   *
     FROM {{ ref('dim_shipping_services') }}

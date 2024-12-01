@@ -25,7 +25,7 @@ grouped_orders as (
         , sum(quantity) as total_products
         , count(distinct product_id) as total_diff_products
         , sum(order_total) as total_order_cost
-        , sum(shipping_cost) as total_shipping_cost
+        , sum(order_shipping_cost) as total_shipping_cost
         , sum(discount) as total_discount
     from fct_products_in_order ord
     join dim_promos pro 

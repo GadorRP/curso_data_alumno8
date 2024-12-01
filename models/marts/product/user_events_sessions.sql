@@ -1,12 +1,21 @@
-WITH fct_events as (
-    SELECT   *
-    FROM {{ ref('fct_events') }}
-),
+{{ 
+    config(
+    materialized='view',
+    ) 
+}}
 
-dim_users as (
+{% set event_types = obtener_valores(ref('stg_sql_server_dbo__events'),'event_type') %}
+
+WITH dim_users as (
     SELECT  *
     FROM {{ref('dim_users')}}
 ),
+
+fct_events as (
+    SELECT *
+    FROM {{ref('fct_events')}}
+),
+
 
 first_last_event_time AS (
     select 
@@ -24,14 +33,10 @@ events_int as (
     session_id
     , user_id
     , event_type
-    , CASE WHEN event_type = 'checkout' then 1
-        ELSE 0 END as checkout 
-    , CASE WHEN event_type = 'package_shipped' then 1
-        ELSE 0 END as package_shipped
-    , CASE WHEN event_type = 'add_to_cart' then 1
-        ELSE 0 END as add_to_cart
-    , CASE WHEN event_type = 'page_view' then 1
-        ELSE 0 END as page_view 
+    , {%- for event_type in event_types   %}
+            CASE WHEN event_type = '{{event_type}}' THEN 1 ELSE 0 END as {{event_type}}
+            {%- if not loop.last %},{% endif -%}
+    {% endfor %}
     from fct_events ev
 ),
 

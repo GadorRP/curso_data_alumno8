@@ -31,7 +31,7 @@ fct_products_in_order AS (
         , created_at_utc
         , tracking_id as delivery_id
         , status
-        , order_shipping_cost
+        , shipping_cost as order_shipping_cost
         , order_cost
         , order_total
         , itm.is_deleted

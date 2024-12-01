@@ -21,12 +21,12 @@ fct_products_in_order as (
 
 promos_orders as (
     SELECT 
-        pro.description as promocion
-        , max(pro.discount) as descuento_aplicado
-        , COUNT(*) as num_pedidos 
-        , descuento_aplicado * num_pedidos as total_rebajado
-        , ROUND(AVG(order_cost),2) as avg_coste_pedido
-        , ROUND(AVG(discount / order_cost * 100),2) as porcentaje_descuento
+        pro.description as promotion
+        , max(pro.discount) as discount_applied
+        , COUNT(*) as num_orders 
+        , descuento_aplicado * num_pedidos as total_discounted
+        , ROUND(AVG(order_cost),2) as avg_order_cost
+        , ROUND(AVG(discount / order_cost * 100),2) as percentage_discount
     FROM fct_products_in_order ord 
     JOIN dim_promos pro
     ON ord.promo_id = pro.promo_id
