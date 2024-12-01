@@ -1,0 +1,452 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: ""
+    columns:
+      - name: date_day
+        data_type: date
+        description: ""
+
+      - name: prior_date_day
+        data_type: date
+        description: ""
+
+      - name: next_date_day
+        data_type: date
+        description: ""
+
+      - name: prior_year_date_day
+        data_type: date
+        description: ""
+
+      - name: prior_year_over_year_date_day
+        data_type: date
+        description: ""
+
+      - name: day_of_week
+        data_type: number
+        description: ""
+
+      - name: day_of_week_iso
+        data_type: number
+        description: ""
+
+      - name: day_of_week_name
+        data_type: varchar
+        description: ""
+
+      - name: day_of_week_name_short
+        data_type: varchar
+        description: ""
+
+      - name: day_of_month
+        data_type: number
+        description: ""
+
+      - name: day_of_year
+        data_type: number
+        description: ""
+
+      - name: week_start_date
+        data_type: date
+        description: ""
+
+      - name: week_end_date
+        data_type: date
+        description: ""
+
+      - name: prior_year_week_start_date
+        data_type: date
+        description: ""
+
+      - name: prior_year_week_end_date
+        data_type: date
+        description: ""
+
+      - name: week_of_year
+        data_type: number
+        description: ""
+
+      - name: iso_week_start_date
+        data_type: date
+        description: ""
+
+      - name: iso_week_end_date
+        data_type: date
+        description: ""
+
+      - name: prior_year_iso_week_start_date
+        data_type: date
+        description: ""
+
+      - name: prior_year_iso_week_end_date
+        data_type: date
+        description: ""
+
+      - name: iso_week_of_year
+        data_type: number
+        description: ""
+
+      - name: prior_year_week_of_year
+        data_type: number
+        description: ""
+
+      - name: prior_year_iso_week_of_year
+        data_type: number
+        description: ""
+
+      - name: month_of_year
+        data_type: number
+        description: ""
+
+      - name: month_name
+        data_type: varchar
+        description: ""
+
+      - name: month_name_short
+        data_type: varchar
+        description: ""
+
+      - name: month_start_date
+        data_type: date
+        description: ""
+
+      - name: month_end_date
+        data_type: date
+        description: ""
+
+      - name: prior_year_month_start_date
+        data_type: date
+        description: ""
+
+      - name: prior_year_month_end_date
+        data_type: date
+        description: ""
+
+      - name: quarter_of_year
+        data_type: number
+        description: ""
+
+      - name: quarter_start_date
+        data_type: date
+        description: ""
+
+      - name: quarter_end_date
+        data_type: date
+        description: ""
+
+      - name: year_number
+        data_type: number
+        description: ""
+
+      - name: year_start_date
+        data_type: date
+        description: ""
+
+      - name: year_end_date
+        data_type: date
+        description: ""
+
+  - name: dim_addresses
+    description: ""
+    columns:
+      - name: address_id
+        data_type: varchar
+        description: ""
+
+      - name: zipcode
+        data_type: number
+        description: ""
+
+      - name: country
+        data_type: varchar
+        description: ""
+
+      - name: address
+        data_type: varchar
+        description: ""
+
+      - name: state
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: dim_promos
+    description: ""
+    columns:
+      - name: promo_id
+        data_type: varchar
+        description: ""
+
+      - name: description
+        data_type: varchar
+        description: ""
+
+      - name: discount
+        data_type: number
+        description: ""
+
+      - name: status
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: dim_users
+    description: ""
+    columns:
+      - name: user_id
+        data_type: varchar
+        description: ""
+
+      - name: updated_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: address_id
+        data_type: varchar
+        description: ""
+
+      - name: last_name
+        data_type: varchar
+        description: ""
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: phone_number
+        data_type: varchar
+        description: ""
+
+      - name: first_name
+        data_type: varchar
+        description: ""
+
+      - name: email
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: dim_deliverys
+    description: ""
+    columns:
+      - name: delivery_id
+        data_type: varchar
+        description: ""
+
+      - name: estimated_delivery_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: delivered_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: days_variation_from_estimated
+        data_type: number
+        description: ""
+
+      - name: delivery_status
+        data_type: varchar
+        description: ""
+
+  - name: dim_shipping_services
+    description: ""
+    columns:
+      - name: shipping_service_id
+        data_type: varchar
+        description: ""
+
+      - name: name
+        data_type: varchar
+        description: ""
+
+  - name: dim_products
+    description: ""
+    columns:
+      - name: product_id
+        data_type: varchar
+        description: ""
+
+      - name: description
+        data_type: varchar
+        description: ""
+
+      - name: price
+        data_type: float
+        description: ""
+
+      - name: price_category
+        data_type: varchar
+        description: ""
+
+      - name: inventory
+        data_type: number
+        description: ""
+
+      - name: inventory_category
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: fct_budget
+    description: ""
+    columns:
+      - name: budget_id
+        data_type: varchar
+        description: ""
+
+      - name: product_id
+        data_type: varchar
+        description: ""
+
+      - name: quantity
+        data_type: number
+        description: ""
+
+      - name: month_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: fct_events
+    description: ""
+    columns:
+      - name: event_id
+        data_type: varchar
+        description: ""
+
+      - name: page_url
+        data_type: varchar
+        description: ""
+
+      - name: event_type
+        data_type: varchar
+        description: ""
+
+      - name: user_id
+        data_type: varchar
+        description: ""
+
+      - name: product_id
+        data_type: varchar
+        description: ""
+
+      - name: session_id
+        data_type: varchar
+        description: ""
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: order_id
+        data_type: varchar
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
+
+  - name: fct_products_in_order
+    description: ""
+    columns:
+      - name: order_item_id
+        data_type: varchar
+        description: ""
+
+      - name: order_id
+        data_type: varchar
+        description: ""
+
+      - name: product_id
+        data_type: varchar
+        description: ""
+
+      - name: quantity
+        data_type: number
+        description: ""
+
+      - name: promo_id
+        data_type: varchar
+        description: ""
+
+      - name: user_id
+        data_type: varchar
+        description: ""
+
+      - name: shipping_service_id
+        data_type: varchar
+        description: ""
+
+      - name: address_id
+        data_type: varchar
+        description: ""
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: ""
+
+      - name: delivery_id
+        data_type: varchar
+        description: ""
+
+      - name: status
+        data_type: varchar
+        description: ""
+
+      - name: shipping_cost
+        data_type: float
+        description: ""
+
+      - name: order_cost
+        data_type: float
+        description: ""
+
+      - name: order_total
+        data_type: float
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: ""
