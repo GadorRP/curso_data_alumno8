@@ -14,7 +14,7 @@ SELECT
     , name
     , price
     , inventory
-    , _fivetran_deleted 
+    , _fivetran_deleted
     , _fivetran_synced
 FROM {{ source('sql_server_dbo', 'products') }}
 

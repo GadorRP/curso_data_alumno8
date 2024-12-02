@@ -4,7 +4,7 @@
     ) 
 }}
 
-{% set event_types = obtener_valores(ref('stg_sql_server_dbo__events'),'event_type') %}
+{% set event_types = obtener_valores(ref('fct_events'),'event_type') %}
 
 WITH dim_users as (
     SELECT  *

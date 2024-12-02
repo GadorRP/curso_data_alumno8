@@ -13,9 +13,9 @@ WITH dim_shipping_services as (
     FROM {{ ref('dim_shipping_services') }}
 ),
 
-dim_deliverys as (
+dim_deliveries as (
     SELECT *
-    FROM {{ ref('dim_deliverys')}}
+    FROM {{ ref('dim_deliveries')}}
 ),
 
 fct_products_in_order_grouped as (
@@ -41,17 +41,17 @@ calculate_deliverys as (
         , CASE WHEN delivery_status = 'after_estimated' then days_variation_from_estimated
             ELSE NULL END as days_after
     FROM fct_products_in_order_grouped ord 
-    JOIN dim_deliverys del
+    JOIN dim_deliveries del
     ON ord.delivery_id = del.delivery_id
     WHERE delivery_status != 'not_delivered'
 ),
 
-shipping_services_deliverys as (
+shipping_services_deliveries as (
     SELECT 
         name as shipping_service
-        , SUM(deliverys_in_day) as deliverys_in_day
-        , SUM(deliverys_before) as deliverys_before_estimated
-        , SUM(deliverys_after) as deliverys_after_estimated
+        , SUM(deliverys_in_day) as deliveries_in_day
+        , SUM(deliverys_before) as deliveries_before_estimated
+        , SUM(deliverys_after) as deliveries_after_estimated
         , AVG(days_after) as average_days_after
         , AVG(days_before) as average_days_before
     FROM calculate_deliverys cal
@@ -60,4 +60,4 @@ shipping_services_deliverys as (
     GROUP BY shipping_service
 )
 
-SELECT * FROM shipping_services_deliverys
+SELECT * FROM shipping_services_deliveries

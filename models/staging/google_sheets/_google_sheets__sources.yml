@@ -19,7 +19,7 @@ sources:
 
       - name: budget
         loaded_at_field: _fivetran_synced
-        description: "Data about budget"
+        description: "Datos sobre el presupuestot"
         columns:
           - name: _row
             description: "Numero de cada fila en la base de datos de origen"

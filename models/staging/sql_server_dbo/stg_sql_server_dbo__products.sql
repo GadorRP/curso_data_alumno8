@@ -1,6 +1,6 @@
 WITH src_products AS (
     SELECT * 
-    FROM {{ source('sql_server_dbo', 'products') }}
+    FROM {{ ref('products_snp') }}
     ),
 
 silver_products AS (
@@ -11,6 +11,10 @@ silver_products AS (
         , inventory
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
+        , DBT_SCD_ID 
+        , DBT_UPDATED_AT
+        , DBT_VALID_FROM
+        , DBT_VALID_TO
     FROM src_products
     )
 

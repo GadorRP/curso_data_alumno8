@@ -249,7 +249,7 @@ models:
         data_type: timestamp_tz
         description: ""
 
-  - name: dim_deliverys
+  - name: dim_deliveries
     description: ""
     columns:
       - name: delivery_id

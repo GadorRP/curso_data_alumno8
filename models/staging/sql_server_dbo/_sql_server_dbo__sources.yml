@@ -260,7 +260,6 @@ sources:
             data_type: varchar
             description: "UUID de cada producto"
             tests:
-              - unique
               - not_null
 
           - name: price
@@ -329,7 +328,6 @@ sources:
             data_type: varchar
             description: ""
             tests:
-              - unique
               - not_null
 
           - name: updated_at

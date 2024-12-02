@@ -1,4 +1,3 @@
-
 version: 2
 
 models:
@@ -34,37 +33,48 @@ models:
         description: "Fecha y hora cuando se cargó el datod"
 
   - name: stg_sql_server_dbo__shipping_services
-    description: "Data about the shipping services of the orders"
+    description: "Servicios de envío que llevan los pedidos"
     columns:
       - name: shipping_services_id
         data_type: varchar
-        description: "UUID for each unique shipping service on platform"
+        description: "UUID para cada servicio de envío"
         tests:
           - not_null
           - unique
+          - relationships:
+              field: shipping_services_id
+              to: source('sql_server_dbo','orders')
 
       - name: description
         data_type: varchar
-        description: "Name of the shipping service"
+        description: "Nombre del servicio"
+        tests:
+          - not_null
 
   - name: stg_sql_server_dbo__products
-    description: ""
+    description: "Datos sobre los productos de la plataforma"
     columns:
       - name: product_id
         data_type: varchar
-        description: "UUID for each unique product on platform"
+        description: "UUID para cada producto de la plataforma"
+        tests:
+          - unique
 
       - name: price
         data_type: float
-        description: "Price of the product"
+        description: "Precio del producto"
 
       - name: description
         data_type: varchar
-        description: "Name of the product"
+        description: "Nombre del producto"
+        tests:
+          - not_null
 
       - name: inventory
         data_type: number
-        description: "Indicates the unities of the product"
+        description: "Numeros de unidades del producto en el inventario"
+        tests:
+          - positive_values
 
       - name: is_deleted
         data_type: boolean
@@ -83,10 +93,15 @@ models:
         tests:
           - unique
           - not_null
+          - relationships:
+              field: promo_id
+              to: source('sql_server_dbo','promos')
 
       - name: description
         data_type: varchar
         description: "Nombre de la promoción"
+        tests:
+          - not_null
 
       - name: discount
         data_type: number
@@ -104,13 +119,14 @@ models:
         data_type: timestamp_tz
         description: "Fecha y hora cuando se cargó el dato"
 
-
   - name: stg_sql_server_dbo__users
     description: ""
     columns:
       - name: user_id
         data_type: varchar
         description: "UUID de cada usuario"
+        tests:
+          - unique
 
       - name: updated_at_utc
         data_type: timestamp_tz
@@ -119,6 +135,10 @@ models:
       - name: address_id
         data_type: varchar
         description: "UUID de la dirección asociada al usuario"
+        tests:
+          - relationships:
+              field: address_id
+              to: source('sql_server_dbo','address')
 
       - name: last_name
         data_type: varchar
@@ -127,6 +147,9 @@ models:
       - name: created_at_utc
         data_type: timestamp_tz
         description: "Fecha y hora en que se creó el registro del usuario"
+        tests:
+          - date_before:
+              column_after: updated_at_utc
 
       - name: phone_number
         data_type: varchar
@@ -154,26 +177,45 @@ models:
       - name: order_id
         data_type: varchar
         description: "UUID del pedido"
+        tests:
+          - unique
 
       - name: shipping_service_id
         data_type: varchar
         description: "UUID del servicio de envío utilizado para el pedido"
+        tests:
+          - relationships:
+              field: shipping_services_id
+              to: source('sql_server_dbo','shipping_services')
 
       - name: shipping_cost
         data_type: float
         description: "Costo del envío del pedido"
+        tests:
+          - positive_values
 
       - name: address_id
         data_type: varchar
         description: "UUID de la dirección de envío asociada al pedido"
+        tests:
+          - relationships:
+              field: address_id
+              to: source('sql_server_dbo','address')
 
       - name: created_at_utc
         data_type: timestamp_tz
         description: "Fecha y hora en que el pedido fue creado"
+        tests:
+          - date_before:
+              column_after: delivered_at_utc
 
       - name: promo_id
         data_type: varchar
         description: "UUID de la promoción aplicada al pedido"
+        tests:
+          - relationships:
+              field: promo_id
+              to: source('sql_server_dbo','promos')
 
       - name: estimated_delivery_at_utc
         data_type: timestamp_tz
@@ -182,14 +224,19 @@ models:
       - name: order_cost
         data_type: float
         description: "Costo total del pedido (sin contar el envío)"
+        tests:
+          - positive_values
 
       - name: user_id
         data_type: varchar
         description: "UUID  del usuario que realizó el pedido"
+        
 
       - name: order_total
         data_type: float
         description: "Total del pedido, incluyendo el costo del pedido y el envío"
+        tests:
+          - positive_values
 
       - name: delivered_at_utc
         data_type: timestamp_tz
@@ -258,7 +305,7 @@ models:
     description: ""
     columns:
       - name: order_item_id
-        data_type: varchar
+        data_type: varcha
         description: "UUID único del artículo dentro del pedido"
 
       - name: order_id
@@ -281,33 +328,4 @@ models:
         data_type: timestamp_tz
         description: "Fecha y hora cuando se cargó el dato"
 
-
-  - name: stg_sql_server_dbo__shipping_services
-    description: "contiene los diferentes servicios de envio"
-    columns:
-      - name: shipping_service_id
-        data_type: varchar
-        description: "UUID de cada servicio"
-        tests:
-          - not_null
-          - unique
-
-      - name: name
-        data_type: varchar
-        description: "Nombre del servicio de envío"
-
-      - name: product_id
-        data_type: varchar
-        description: "UUID del producto incluido en el pedido"
-
-      - name: quantity
-        data_type: number
-        description: "Cantidad del producto en el pedido"
-
-      - name: is_deleted
-        data_type: boolean
-        description: "Representa si ha sido eliminado el registro"
-
-      - name: date_load_utc
-        data_type: timestamp_tz
-        description: "Fecha y hora cuando se cargó el dato"
+  

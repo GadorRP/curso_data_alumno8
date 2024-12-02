@@ -3,22 +3,22 @@
 version: 2
 
 models:
-  - name: shipping_services_deliverys
+  - name: shipping_services_deliveries
     description: "Vista que muestra si las entregas realizadas se han hecho a tiempo, el promedio de días de retraso o adelanto, desglosado por servicio de envío."
     columns:
       - name: shipping_service
         description: "Nombre del servicio de envío."
         data_type: string
 
-      - name: deliverys_in_day
+      - name: deliveries_in_day
         description: "Número total de entregas realizadas en el día estimado."
         data_type: number
 
-      - name: deliverys_before_estimated
+      - name: deliveries_before_estimated
         description: "Número total de entregas realizadas antes del día estimado."
         data_type: number
 
-      - name: deliverys_after_estimated
+      - name: deliveries_after_estimated
         description: "Número total de entregas realizadas después del día estimado."
         data_type: number
 

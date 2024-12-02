@@ -1,3 +1,9 @@
+{{ 
+    config(
+    materialized='view',
+    ) 
+}}
+
 WITH dim_addresses as (
     SELECT   *
     FROM {{ ref('dim_addresses') }}

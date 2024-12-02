@@ -1,0 +1,120 @@
+version: 2
+
+models:
+  - name: products_snp
+    description: "Snapshot de los productos"
+    columns:
+      - name: product_id
+        data_type: varchar
+        description: "UUID para cada producto de la plataforma"
+        tests:
+          - unique
+
+      - name: price
+        data_type: float
+        description: "Precio del producto"
+
+      - name: description
+        data_type: varchar
+        description: "Nombre del producto"
+        tests:
+          - not_null
+
+      - name: inventory
+        data_type: number
+        description: "Numeros de unidades del producto en el inventario"
+        tests:
+          - positive_values
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+
+      - name: dbt_scd_id
+        data_type: varchar
+        description: "ID otorgada por dbt para indentificar el registro"
+
+      - name: dbt_updated_at
+        data_type: timestamp_tz
+        description: "Indica cuando se actualizó el dato"
+
+      - name: dbt_valid_from
+        data_type: timestamp_tz
+        description: "Indica desde que fecha es valido el dato"
+
+      - name: dbt_valid_to
+        data_type: timestamp_tz
+        description: "Indica hasta que fecha es valido el dato"
+
+
+  - name: users_snp
+    description: "Snapshot de la tabla users"
+    columns:
+      - name: user_id
+        data_type: varchar
+        description: "UUID de cada usuario"
+        tests:
+          - unique
+
+      - name: updated_at_utc
+        data_type: timestamp_tz
+        description: "Fecha en que se actualizó la información del usuario"
+
+      - name: address_id
+        data_type: varchar
+        description: "UUID de la dirección asociada al usuario"
+        tests:
+          - relationships:
+              field: address_id
+              to: source('sql_server_dbo','address')
+
+      - name: last_name
+        data_type: varchar
+        description: "Apellido del usuario"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que se creó el registro del usuario"
+        tests:
+          - date_before:
+              column_after: updated_at_utc
+
+      - name: phone_number
+        data_type: varchar
+        description: "Número de teléfono del usuario"
+
+      - name: first_name
+        data_type: varchar
+        description: "Nombre del usuario"
+
+      - name: email
+        data_type: varchar
+        description: "Correo electrónico del usuario"
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+
+      - name: dbt_scd_id
+        data_type: varchar
+        description: "ID otorgada por dbt para indentificar el registro"
+
+      - name: dbt_updated_at
+        data_type: timestamp_tz
+        description: "Indica cuando se actualizó el dato"
+
+      - name: dbt_valid_from
+        data_type: timestamp_tz
+        description: "Indica desde que fecha es valido el dato"
+
+      - name: dbt_valid_to
+        data_type: timestamp_tz
+        description: "Indica hasta que fecha es valido el dato"

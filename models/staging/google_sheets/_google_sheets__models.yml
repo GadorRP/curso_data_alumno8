@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_google_sheets__budget
-    description: ""
+    description: "Staging con datos sobre el presupuesto"
     columns:
       - name: budget_id
         data_type: number

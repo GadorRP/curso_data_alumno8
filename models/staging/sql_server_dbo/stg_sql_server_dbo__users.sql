@@ -1,6 +1,6 @@
 WITH src_users AS (
     SELECT * 
-    FROM {{ source('sql_server_dbo', 'users') }}
+    FROM {{ ref('users_snp') }}
     ),
 
 silver_users AS (
@@ -15,6 +15,10 @@ silver_users AS (
         , email
         , _fivetran_deleted as is_deleted
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
+        , DBT_SCD_ID 
+        , DBT_UPDATED_AT
+        , DBT_VALID_FROM
+        , DBT_VALID_TO
     FROM src_users
     
     )

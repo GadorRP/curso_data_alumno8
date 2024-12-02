@@ -22,10 +22,10 @@ fct_products_in_order as (
 products_sold as (
     SELECT 
         pro.description as product
-        , max(price) as price
+        , max(pro.price) as price
         , COUNT(*) as num_orders
         , SUM(quantity) as units_sold
-        , precio * unidades_vendidas as profits
+        , max(pro.price) * SUM(quantity) as profits
         , max(price_category) as price_category
     FROM fct_products_in_order ord 
     JOIN dim_products pro

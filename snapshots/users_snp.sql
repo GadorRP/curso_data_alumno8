@@ -18,7 +18,7 @@ SELECT
     , phone_number
     , first_name 
     , email
-    , _fivetran_deleted 
+    , _fivetran_deleted
     , _fivetran_synced
 FROM {{ source('sql_server_dbo', 'users') }}
 

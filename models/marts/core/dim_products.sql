@@ -17,6 +17,7 @@ dim_products as (
             ELSE 'high' END AS inventory_category
         , is_deleted
         , date_load_utc
+        
     FROM stg_products
 )
 

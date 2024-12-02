@@ -24,7 +24,7 @@ promos_orders as (
         pro.description as promotion
         , max(pro.discount) as discount_applied
         , COUNT(*) as num_orders 
-        , descuento_aplicado * num_pedidos as total_discounted
+        , discount_applied * num_orders as total_discounted
         , ROUND(AVG(order_cost),2) as avg_order_cost
         , ROUND(AVG(discount / order_cost * 100),2) as percentage_discount
     FROM fct_products_in_order ord 
