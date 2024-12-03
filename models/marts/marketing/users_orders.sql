@@ -11,7 +11,7 @@ WITH dim_addresses as (
 
 dim_users as (
     SELECT  *
-    FROM {{ref('dim_users')}}
+    FROM {{ref('dim_users_current')}}
 ),
 
 dim_promos as (

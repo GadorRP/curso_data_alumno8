@@ -11,7 +11,7 @@ WITH fct_events as (
 
 dim_users as (
     SELECT  *
-    FROM {{ref('dim_users')}}
+    FROM {{ref('dim_users_current')}}
 ),
 
 ranked_events AS (

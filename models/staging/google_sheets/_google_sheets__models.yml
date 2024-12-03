@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_google_sheets__budget
-    description: "Staging con datos sobre el presupuesto"
+    description: "Staging con datos sobre las unidades de cada producto por mes"
     columns:
       - name: budget_id
         data_type: number

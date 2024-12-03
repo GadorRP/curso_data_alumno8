@@ -1,3 +1,10 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'user_id'
+    ) 
+}}
+
 WITH src_users AS (
     SELECT * 
     FROM {{ ref('users_snp') }}
@@ -24,3 +31,9 @@ silver_users AS (
     )
 
 SELECT * FROM silver_users
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

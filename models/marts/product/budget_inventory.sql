@@ -10,7 +10,7 @@
 WITH dim_products as (
     SELECT 
         *
-    FROM {{ ref('dim_products') }}
+    FROM {{ ref('dim_products_current') }}
 ),
 
 fct_products_in_order as (
@@ -65,7 +65,7 @@ budget_inventory as (
         year 
         , month
         , month_number
-        , producto as product
+        , coalesce(producto,'no_product') as product
         , unidades_vendidas as units_sold
         , quantity as units_budget
     FROM products_sold pro

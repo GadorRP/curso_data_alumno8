@@ -35,6 +35,6 @@ select * from silver_orders
 
 {% if is_incremental() %}
 
-    where date_load_utc >= (select max(date_load_utc) from {{ this }} )
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
 
 {% endif %}

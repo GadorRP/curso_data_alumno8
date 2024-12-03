@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_sql_server_dbo__addresses
-    description: "Datos sobre las direcciones"
+    description: "Staging que alberga las direcciones de usuarios y pedidos"
     columns:
       - name: address_id
         data_type: varchar
@@ -30,7 +30,7 @@ models:
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: "Fecha y hora cuando se cargó el datod"
+        description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__shipping_services
     description: "Servicios de envío que llevan los pedidos"
@@ -52,7 +52,7 @@ models:
           - not_null
 
   - name: stg_sql_server_dbo__products
-    description: "Datos sobre los productos de la plataforma"
+    description: "Staging que alberga el historico de la informacion sobre los productos"
     columns:
       - name: product_id
         data_type: varchar
@@ -85,7 +85,7 @@ models:
         description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__promos
-    description: ""
+    description: "Staging que alberga la información sobre las promociones"
     columns:
       - name: promo_id
         data_type: varchar
@@ -120,7 +120,7 @@ models:
         description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__users
-    description: ""
+    description: "Staging que alberga todo el historico sobre los datos de los usuarios"
     columns:
       - name: user_id
         data_type: varchar
@@ -169,10 +169,22 @@ models:
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: "Fecha y hora cuando se cargó el dato"
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+      - name: DBT_UPDATED_AT
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en la snapshot"
+
+      - name: DBT_VALID_FROM
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica desde cuando es valido el registro"
+
+      - name: DBT_VALID_TO
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica hasta cuando es valido el registro"
 
   - name: stg_sql_server_dbo__orders
-    description: ""
+    description: "Staging que alberga la información sobre los pedidos"
     columns:
       - name: order_id
         data_type: varchar
@@ -259,7 +271,7 @@ models:
         description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__events
-    description: ""
+    description: "Staging que alberga los eventos generados en el sitio web"
     columns:
       - name: event_id
         data_type: varchar
@@ -302,7 +314,7 @@ models:
         description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__order_items
-    description: ""
+    description: "Staging que alberga la información de los productos de cada pedido"
     columns:
       - name: order_item_id
         data_type: varcha

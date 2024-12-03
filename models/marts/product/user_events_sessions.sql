@@ -8,7 +8,7 @@
 
 WITH dim_users as (
     SELECT  *
-    FROM {{ref('dim_users')}}
+    FROM {{ref('dim_users_current')}}
 ),
 
 fct_events as (

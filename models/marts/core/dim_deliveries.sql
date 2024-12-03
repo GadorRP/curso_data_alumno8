@@ -1,3 +1,11 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'delivery_id'
+    ) 
+}}
+
+
 WITH stg_orders as (
     SELECT   *
     FROM {{ ref('stg_sql_server_dbo__orders') }}
@@ -21,9 +29,18 @@ dim_deliverys as (
             WHEN tiempo_delay = 0 THEN 'day_estimated'
             WHEN tiempo_delay IS NULL THEN 'not_delivered'
             ELSE 'after_estimated' END as delivery_status
+        , is_deleted
+        , date_load_utc
     FROM calculo_envio env 
     JOIN stg_orders ord ON 
     env.tracking_id = ord.tracking_id
 )
 
 SELECT * FROM dim_deliverys
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
+

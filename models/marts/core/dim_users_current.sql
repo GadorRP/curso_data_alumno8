@@ -3,7 +3,7 @@ WITH stg_users as (
     FROM {{ ref('stg_sql_server_dbo__users') }}
 ),
 
-dim_users as (
+dim_users_current as (
     SELECT
         user_id
         , updated_at_utc
@@ -16,6 +16,7 @@ dim_users as (
         , is_deleted
         , date_load_utc
     FROM stg_users
+    WHERE DBT_VALID_TO IS null
 )
 
-SELECT * FROM dim_users
+SELECT * FROM dim_users_current

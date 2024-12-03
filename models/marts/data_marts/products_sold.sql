@@ -10,7 +10,7 @@
 WITH dim_products as (
     SELECT 
         *
-    FROM {{ ref('dim_products') }}
+    FROM {{ ref('dim_products_current') }}
 ),
 
 fct_products_in_order as (

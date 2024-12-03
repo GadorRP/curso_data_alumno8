@@ -1,3 +1,11 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'product_id'
+    ) 
+}}
+
+
 WITH src_products AS (
     SELECT * 
     FROM {{ ref('products_snp') }}
@@ -19,3 +27,9 @@ silver_products AS (
     )
 
 SELECT * FROM silver_products
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
