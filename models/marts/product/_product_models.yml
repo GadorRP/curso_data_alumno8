@@ -2,6 +2,28 @@ version: 2
 
 models:
 
+  - name: fct_budget
+    description: "Tabla de hechos que alberga las unidades pedidas por mes de cada producto"
+    columns:
+        - name: budget_id
+          data_type: number
+          description: "UUID surrogada para identificar cada presupuesto"
+    
+        - name: product_id
+          data_type: varchar
+          description: "UUID para cada producto de la plataforma"
+        
+        - name: quantity
+          data_type: number
+          description: "Numero de unidades para cada producto cada mes"
+
+        - name: month_utc
+          data_type: timestamp_tz
+          description: "Cada mes del presupuesto -> Ultimo dia del mes"
+
+        - name: date_load_utc
+          data_type: timestamp_tz
+          description: "Fecha en la que se cargo el dato"
 
   - name: dim_products_historical
     description: "Dimension que alberga todo el histórico de los productos"
@@ -50,7 +72,7 @@ models:
         data_type: timestamp_tz
         description: "Fecha y hora que indica hasta cuando es valido el registro"
 
-        
+
   - name: user_events_sessions
     description: "Vista que calcula la duración de las sesiones de los usuarios y sus interacciones con la web"
     config:
