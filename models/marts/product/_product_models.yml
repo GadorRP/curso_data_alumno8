@@ -1,6 +1,56 @@
 version: 2
 
 models:
+
+
+  - name: dim_products_historical
+    description: "Dimension que alberga todo el histórico de los productos"
+    columns:
+      - name: product_id
+        data_type: varchar
+        description: "Identificador único del producto."
+
+      - name: description
+        data_type: varchar
+        description: "Descripción del producto."
+
+      - name: price
+        data_type: float
+        description: "Precio del producto."
+
+      - name: price_category
+        data_type: varchar
+        description: "Categoría de precio del producto."
+
+      - name: inventory
+        data_type: number
+        description: "Cantidad en inventario del producto."
+
+      - name: inventory_category
+        data_type: varchar
+        description: "Categoria que representa la cantidad del producto."
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+      - name: updated_at
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en la snapshot"
+
+      - name: valid_from
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica desde cuando es valido el registro"
+
+      - name: valid_to
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica hasta cuando es valido el registro"
+
+        
   - name: user_events_sessions
     description: "Vista que calcula la duración de las sesiones de los usuarios y sus interacciones con la web"
     config:

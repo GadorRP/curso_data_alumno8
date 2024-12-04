@@ -179,32 +179,7 @@ models:
         data_type: timestamp_tz
         description: "Fecha y hora que indica cuando se cargó el dato"
 
-  - name: dim_promos
-    description: "Staging que alberga la información sobre las promociones"
-    columns:
-      - name: promo_id
-        data_type: varchar
-        description: "UUID de la promocion"
-
-      - name: description
-        data_type: varchar
-        description: "Nombre de la promoción"
-
-      - name: discount
-        data_type: number
-        description: "Valor del descuento que ofrece la promoción"
-
-      - name: status
-        data_type: varchar
-        description: "Estado de la promoción (activa, inactiva)"
-
-      - name: is_deleted
-        data_type: boolean
-        description: "Representa si ha sido eliminado el registro"
-
-      - name: date_load_utc
-        data_type: timestamp_tz
-        description: "Fecha y hora cuando se cargó el dato"
+  
 
   - name: dim_users_current
     description: "Dimension que alberga toda la informacion actualizada de los usuarios"
@@ -307,41 +282,7 @@ models:
         data_type: timestamp_tz
         description: "Fecha y hora que indica hasta cuando es valido el registro"
 
-  - name: dim_deliveries
-    description: "Dimensión que almacena información de las entregas."
-    columns:
-      - name: delivery_id
-        data_type: varchar
-        description: "Identificador único de la entrega"
-        tests:
-          - not_null
-          - unique
-
-      - name: estimated_delivery_at_utc
-        data_type: timestamp_tz
-        description: "Fecha y hora estimada de entrega en UTC"
-
-      - name: delivered_at_utc
-        data_type: timestamp_tz
-        description: "Fecha y hora real de entrega en UTC"
-
-      - name: days_variation_from_estimated
-        data_type: number
-        description: "Variación en días respecto a la fecha estimada de entrega"
-
-      - name: delivery_status
-        data_type: varchar
-        description: "Estado actual de la entrega"
-        tests:
-          - not_null
-
-      - name: is_deleted
-        data_type: boolean
-        description: "Representa si ha sido eliminado el registro"
-
-      - name: date_load_utc
-        data_type: timestamp_tz
-        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+  
 
   - name: dim_shipping_services
     description: "Dimension que alberga los servicios de envío que llevan los pedidos"
@@ -391,75 +332,6 @@ models:
         data_type: timestamp_tz
         description: "Fecha y hora que indica cuando se cargó el dato en origen"
 
-  - name: dim_products_historical
-    description: "Dimension que alberga todo el histórico de los productos"
-    columns:
-      - name: product_id
-        data_type: varchar
-        description: "Identificador único del producto."
-
-      - name: description
-        data_type: varchar
-        description: "Descripción del producto."
-
-      - name: price
-        data_type: float
-        description: "Precio del producto."
-
-      - name: price_category
-        data_type: varchar
-        description: "Categoría de precio del producto."
-
-      - name: inventory
-        data_type: number
-        description: "Cantidad en inventario del producto."
-
-      - name: inventory_category
-        data_type: varchar
-        description: "Categoria que representa la cantidad del producto."
-
-      - name: is_deleted
-        data_type: boolean
-        description: "Representa si ha sido eliminado el registro"
-
-      - name: date_load_utc
-        data_type: timestamp_tz
-        description: "Fecha y hora que indica cuando se cargó el dato en origen"
-
-      - name: updated_at
-        data_type: timestamp_tz
-        description: "Fecha y hora que indica cuando se cargó el dato en la snapshot"
-
-      - name: valid_from
-        data_type: timestamp_tz
-        description: "Fecha y hora que indica desde cuando es valido el registro"
-
-      - name: valid_to
-        data_type: timestamp_tz
-        description: "Fecha y hora que indica hasta cuando es valido el registro"
-
-  - name: fct_budget
-    description: "Tabla de hechos que alberga las unidades pedidas por mes de cada producto"
-    columns:
-      - name: budget_id
-        data_type: number
-        description: "UUID surrogada para identificar cada presupuesto"
-  
-      - name: product_id
-        data_type: varchar
-        description: "UUID para cada producto de la plataforma"
-      
-      - name: quantity
-        data_type: number
-        description: "Numero de unidades para cada producto cada mes"
-
-      - name: month_utc
-        data_type: timestamp_tz
-        description: "Cada mes del presupuesto -> Ultimo dia del mes"
-
-      - name: date_load_utc
-        data_type: timestamp_tz
-        description: "Fecha en la que se cargo el dato"
 
   - name: fct_events
     description: "Tabla de hechos que contiene los eventos generados en el sitio web"

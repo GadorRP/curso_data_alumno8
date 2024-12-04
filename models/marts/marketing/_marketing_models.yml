@@ -1,6 +1,34 @@
 version: 2
 
 models:
+
+  - name: dim_promos
+    description: "Staging que alberga la información sobre las promociones"
+    columns:
+      - name: promo_id
+        data_type: varchar
+        description: "UUID de la promocion"
+
+      - name: description
+        data_type: varchar
+        description: "Nombre de la promoción"
+
+      - name: discount
+        data_type: number
+        description: "Valor del descuento que ofrece la promoción"
+
+      - name: status
+        data_type: varchar
+        description: "Estado de la promoción (activa, inactiva)"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+        
   - name: users_orders
     description: "Esta vista contiene datos de los usuarios y sus pedidos"
     config:

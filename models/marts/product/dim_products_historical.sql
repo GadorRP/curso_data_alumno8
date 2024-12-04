@@ -1,3 +1,11 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'product_id'
+    ) 
+}}
+
+
 WITH stg_products as (
     SELECT   *
     FROM {{ ref('stg_sql_server_dbo__products') }}
@@ -25,3 +33,9 @@ dim_products_historical as (
 )
 
 SELECT * FROM dim_products_historical
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

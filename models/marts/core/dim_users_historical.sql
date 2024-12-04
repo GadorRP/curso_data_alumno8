@@ -1,3 +1,11 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'user_id'
+    ) 
+}}
+
+
 WITH stg_users as (
     SELECT   *
     FROM {{ ref('stg_sql_server_dbo__users') }}
@@ -22,3 +30,9 @@ dim_users_historical as (
 )
 
 SELECT * FROM dim_users_historical
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
