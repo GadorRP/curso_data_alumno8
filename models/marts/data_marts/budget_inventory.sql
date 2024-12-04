@@ -66,6 +66,7 @@ budget_inventory as (
         , month
         , month_number
         , coalesce(producto,'no_product') as product
+        , pro.product_id
         , unidades_vendidas as units_sold
         , quantity as units_budget
     FROM products_sold pro
@@ -73,7 +74,7 @@ budget_inventory as (
     ON pro.year = year(bud.month_utc)
     AND pro.month_number = month(bud.month_utc)
     AND pro.product_id = bud.product_id
-    ORDER BY 1,3,5
+    order by 1,3 ASC
 )
 
 SELECT * FROM budget_inventory

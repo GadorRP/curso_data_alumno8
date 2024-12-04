@@ -14,6 +14,7 @@ silver_shipping_services as (
         {{ dbt_utils.generate_surrogate_key(['description']) }} as shipping_service_id
         , description as name
     FROM shipping_services
+    
 )
 
 SELECT * FROM silver_shipping_services

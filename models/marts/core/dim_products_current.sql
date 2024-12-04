@@ -1,3 +1,10 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'product_id'
+    ) 
+}}
+
 WITH stg_products as (
     SELECT   *
     FROM {{ ref('stg_sql_server_dbo__products') }}
@@ -17,9 +24,14 @@ dim_products_current as (
             ELSE 'high' END AS inventory_category
         , is_deleted
         , date_load_utc
-        
     FROM stg_products
     WHERE DBT_VALID_TO IS NULL
 )
 
-SELECT * FROM dim_products
+SELECT * FROM dim_products_current
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

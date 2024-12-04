@@ -212,6 +212,8 @@ models:
       - name: user_id
         data_type: varchar
         description: "UUID de cada usuario"
+        tests:
+          - unique
 
       - name: updated_at_utc
         data_type: timestamp_tz
@@ -358,6 +360,8 @@ models:
       - name: product_id
         data_type: varchar
         description: "Identificador único del producto."
+        tests:
+          - unique
 
       - name: description
         data_type: varchar

@@ -19,7 +19,7 @@ calculo_envio as (
     WHERE status != 'preparing'
 ),
 
-dim_deliverys as (
+dim_deliveries as (
     SELECT
         ord.tracking_id as delivery_id
         , estimated_delivery_at_utc
@@ -36,11 +36,10 @@ dim_deliverys as (
     env.tracking_id = ord.tracking_id
 )
 
-SELECT * FROM dim_deliverys
+SELECT * FROM dim_deliveries
 
 {% if is_incremental() %}
 
     where date_load_utc > (select max(date_load_utc) from {{ this }} )
 
 {% endif %}
-
