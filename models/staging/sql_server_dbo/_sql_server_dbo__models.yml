@@ -1,228 +1,340 @@
-
 version: 2
 
 models:
   - name: stg_sql_server_dbo__addresses
-    description: "Data about addresess"
+    description: "Staging que alberga las direcciones de usuarios y pedidos"
     columns:
       - name: address_id
         data_type: varchar
-        description: "UUID of each address"
+        description: "UUID de cada direccion"
 
       - name: zipcode
         data_type: varchar
-        description: "Zipcode of the address"
+        description: "Codigo postal de cada direccion"
 
       - name: country
         data_type: varchar
-        description: "Country where the address is located"
+        description: "Pais en el que está ubicada la dirección"
 
       - name: address
         data_type: varchar
-        description: "Street and number of the address"
+        description: "Numero y calle de la direccion"
 
       - name: state
         data_type: varchar
-        description: "State or province where the address is located"
+        description: "Estado donde esta ubicada la direccion"
 
       - name: is_deleted
         data_type: boolean
-        description: "Boolean representing if the data was deleted"
+        description: "Representa si ha sido eliminado el registro"
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: "Date that the data was loaded"
+        description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__shipping_services
-    description: "Data about the shipping services of the orders"
+    description: "Servicios de envío que llevan los pedidos"
     columns:
-      - name: shipping_services_id
+      - name: shipping_service_id
         data_type: varchar
-        description: "UUID for each unique shipping service on platform"
+        description: "UUID para cada servicio de envío"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              field: shipping_service_id
+              to: ref('stg_sql_server_dbo__orders')
 
-      - name: description
+      - name: name
         data_type: varchar
-        description: "Name of the shipping service"
-
-  - name: stg_sql_server_dbo__status_orders
-    description: ""
-    columns:
-      - name: status_id
-        data_type: varchar
-        description: "UUID for each unique order status on platform"
-
-      - name: description
-        data_type: varchar
-        description: "Name of the status"
+        description: "Nombre del servicio"
+        tests:
+          - not_null
 
   - name: stg_sql_server_dbo__products
-    description: ""
+    description: "Staging que alberga el historico de la informacion sobre los productos"
     columns:
       - name: product_id
         data_type: varchar
-        description: "UUID for each unique product on platform"
+        description: "UUID para cada producto de la plataforma"
 
       - name: price
         data_type: float
-        description: "Price of the product"
+        description: "Precio del producto"
 
       - name: description
         data_type: varchar
-        description: "Name of the product"
+        description: "Nombre del producto"
+        tests:
+          - not_null
 
       - name: inventory
         data_type: number
-        description: "Indicates the unities of the product"
+        description: "Numeros de unidades del producto en el inventario"
+        tests:
+          - positive_values
 
       - name: is_deleted
         data_type: boolean
-        description: "Boolean representing if the data was deleted"
+        description: "Representa si ha sido eliminado el registro"
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: "Date that the data was loaded"
+        description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__promos
-    description: ""
+    description: "Staging que alberga la información sobre las promociones"
     columns:
       - name: promo_id
         data_type: varchar
-        description: ""
+        description: "UUID de la promocion"
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              field: promo_id
+              to: ref('stg_sql_server_dbo__promos')
 
       - name: description
         data_type: varchar
-        description: ""
+        description: "Nombre de la promoción"
+        tests:
+          - not_null
 
       - name: discount
         data_type: number
-        description: ""
+        description: "Valor del descuento que ofrece la promoción"
 
-      - name: status_id
+      - name: status
         data_type: varchar
-        description: ""
+        description: "Estado de la promoción (activa, inactiva)"
 
       - name: is_deleted
         data_type: boolean
-        description: ""
+        description: "Representa si ha sido eliminado el registro"
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: ""
-
-  - name: stg_sql_server_dbo__status_promos
-    description: ""
-    columns:
-      - name: status_id
-        data_type: varchar
-        description: ""
-
-      - name: description
-        data_type: varchar
-        description: ""
+        description: "Fecha y hora cuando se cargó el dato"
 
   - name: stg_sql_server_dbo__users
-    description: ""
+    description: "Staging que alberga todo el historico sobre los datos de los usuarios"
     columns:
       - name: user_id
         data_type: varchar
-        description: ""
+        description: "UUID de cada usuario"
 
       - name: updated_at_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha en que se actualizó la información del usuario"
 
       - name: address_id
         data_type: varchar
-        description: ""
+        description: "UUID de la dirección asociada al usuario"
+        tests:
+          - relationships:
+              field: address_id
+              to: ref('stg_sql_server_dbo__address')
 
       - name: last_name
         data_type: varchar
-        description: ""
+        description: "Apellido del usuario"
 
       - name: created_at_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha y hora en que se creó el registro del usuario"
+        tests:
+          - date_before:
+              column_after: updated_at_utc
 
       - name: phone_number
         data_type: varchar
-        description: ""
+        description: "Número de teléfono del usuario"
 
       - name: first_name
         data_type: varchar
-        description: ""
+        description: "Nombre del usuario"
 
       - name: email
         data_type: varchar
-        description: ""
+        description: "Correo electrónico del usuario"
 
       - name: is_deleted
         data_type: boolean
-        description: ""
+        description: "Representa si ha sido eliminado el registro"
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+      - name: DBT_UPDATED_AT
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en la snapshot"
+
+      - name: DBT_VALID_FROM
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica desde cuando es valido el registro"
+
+      - name: DBT_VALID_TO
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica hasta cuando es valido el registro"
 
   - name: stg_sql_server_dbo__orders
-    description: ""
+    description: "Staging que alberga la información sobre los pedidos"
+
     columns:
       - name: order_id
         data_type: varchar
-        description: ""
+        description: "UUID del pedido"
+        tests:
+          - unique
 
       - name: shipping_service_id
         data_type: varchar
-        description: ""
+        description: "UUID del servicio de envío utilizado para el pedido"
+        tests:
+          - relationships:
+              field: shipping_service_id
+              to: ref('stg_sql_server_dbo__shipping_services')
 
       - name: shipping_cost
         data_type: float
-        description: ""
+        description: "Costo del envío del pedido"
+        tests:
+          - positive_values
 
       - name: address_id
         data_type: varchar
-        description: ""
+        description: "UUID de la dirección de envío asociada al pedido"
+        tests:
+          - relationships:
+              field: address_id
+              to: ref('stg_sql_server_dbo__address')
 
       - name: created_at_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha y hora en que el pedido fue creado"
+        tests:
+          - date_before:
+              column_after: delivered_at_utc
 
       - name: promo_id
         data_type: varchar
-        description: ""
+        description: "UUID de la promoción aplicada al pedido"
+        tests:
+          - relationships:
+              field: promo_id
+              to: ref('stg_sql_server_dbo__promos')
 
       - name: estimated_delivery_at_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha estimada de entrega del pedido"
 
       - name: order_cost
         data_type: float
-        description: ""
+        description: "Costo total del pedido (sin contar el envío)"
+        tests:
+          - positive_values
 
       - name: user_id
         data_type: varchar
-        description: ""
+        description: "UUID  del usuario que realizó el pedido"
+        
 
       - name: order_total
         data_type: float
-        description: ""
+        description: "Total del pedido, incluyendo el costo del pedido y el envío"
+        tests:
+          - positive_values
 
       - name: delivered_at_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha y hora en que el pedido fue entregado"
 
       - name: tracking_id
         data_type: varchar
-        description: ""
+        description: "Identificador de seguimiento del pedido"
 
-      - name: status_id
+      - name: status
         data_type: varchar
-        description: ""
+        description: "Estado actual del pedido (pendiente, enviado, entregado, etc.)"
 
       - name: is_deleted
         data_type: boolean
-        description: ""
+        description: "Representa si ha sido eliminado el registro"
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha y hora cuando se cargó el dato"
 
+  - name: stg_sql_server_dbo__events
+    description: "Staging que alberga los eventos generados en el sitio web"
+    columns:
+      - name: event_id
+        data_type: varchar
+        description: "UUID del evento"
+
+      - name: page_url
+        data_type: varchar
+        description: "URL de la página donde ocurrió el evento"
+
+      - name: event_type
+        data_type: varchar
+        description: "Tipo de evento"
+
+      - name: user_id
+        data_type: varchar
+        description: "UUID del usuario que generó el evento"
+
+      - name: product_id
+        data_type: varchar
+        description: "UUID  del producto relacionado con el evento"
+
+      - name: session_id
+        data_type: varchar
+        description: "Identificador de la sesión del usuario cuando ocurrió el evento"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que el evento fue registrado "
+
+      - name: order_id
+        data_type: varchar
+        description: "UUID del pedido relacionado con el evento"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+
+  - name: stg_sql_server_dbo__order_items
+    description: "Staging que alberga la información de los productos de cada pedido"
+    columns:
+      - name: order_item_id
+        data_type: varcha
+        description: "UUID único del artículo dentro del pedido"
+
+      - name: order_id
+        data_type: varchar
+        description: "UUID del pedido al que pertenece el artículo"
+
+      - name: product_id
+        data_type: varchar
+        description: "UUID del producto incluido en el pedido"
+
+      - name: quantity
+        data_type: number
+        description: "Cantidad del producto en el pedido"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+
+  

@@ -2,18 +2,24 @@ version: 2
 
 models:
   - name: stg_google_sheets__budget
-    description: ""
+    description: "Staging con datos sobre las unidades de cada producto por mes"
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - month_utc
+          - product_id
+
     columns:
       - name: budget_id
         data_type: number
-        description: ""
+        description: "UUID surrogada para identificar cada presupuesto"
         tests:
           - unique
           - not_null
 
       - name: product_id
         data_type: varchar
-        description: ""
+        description: "UUID para cada producto de la plataforma"
         tests:
           - relationships:
               field: product_id
@@ -21,14 +27,14 @@ models:
 
       - name: quantity
         data_type: number
-        description: ""
+        description: "Numero de unidades para cada producto cada mes"
         tests:
           - positive_values
 
       - name: month_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Cada mes del presupuesto -> Ultimo dia del mes"
 
       - name: date_load_utc
         data_type: timestamp_tz
-        description: ""
+        description: "Fecha en la que se cargo el dato"

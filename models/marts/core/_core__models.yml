@@ -1,0 +1,448 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Dimensión que contiene información relacionada con las fechas."
+    columns:
+      - name: date_day
+        data_type: date
+        description: "Día de la fecha en formato de día."
+
+      - name: prior_date_day
+        data_type: date
+        description: "Día anterior a la fecha."
+
+      - name: next_date_day
+        data_type: date
+        description: "Día siguiente a la fecha."
+
+      - name: prior_year_date_day
+        data_type: date
+        description: "Día correspondiente al mismo día del año anterior."
+
+      - name: prior_year_over_year_date_day
+        data_type: date
+        description: "Día correspondiente al mismo día del año anterior en comparación interanual."
+
+      - name: day_of_week
+        data_type: number
+        description: "Número del día de la semana (1=lunes, 7=domingo)."
+
+      - name: day_of_week_iso
+        data_type: number
+        description: "Número del día de la semana según el estándar ISO 8601 (1=lunes, 7=domingo)."
+
+      - name: day_of_week_name
+        data_type: varchar
+        description: "Nombre del día de la semana (Ejemplo: 'lunes')."
+
+      - name: day_of_week_name_short
+        data_type: varchar
+        description: "Nombre abreviado del día de la semana (Ejemplo: 'Lun')."
+
+      - name: day_of_month
+        data_type: number
+        description: "Número del día en el mes."
+
+      - name: day_of_year
+        data_type: number
+        description: "Número del día en el año."
+
+      - name: week_start_date
+        data_type: date
+        description: "Fecha de inicio de la semana."
+
+      - name: week_end_date
+        data_type: date
+        description: "Fecha de fin de la semana."
+
+      - name: prior_year_week_start_date
+        data_type: date
+        description: "Fecha de inicio de la semana correspondiente al año anterior."
+
+      - name: prior_year_week_end_date
+        data_type: date
+        description: "Fecha de fin de la semana correspondiente al año anterior."
+
+      - name: week_of_year
+        data_type: number
+        description: "Número de la semana en el año."
+
+      - name: iso_week_start_date
+        data_type: date
+        description: "Fecha de inicio de la semana según el estándar ISO 8601."
+
+      - name: iso_week_end_date
+        data_type: date
+        description: "Fecha de fin de la semana según el estándar ISO 8601."
+
+      - name: prior_year_iso_week_start_date
+        data_type: date
+        description: "Fecha de inicio de la semana ISO correspondiente al año anterior."
+
+      - name: prior_year_iso_week_end_date
+        data_type: date
+        description: "Fecha de fin de la semana ISO correspondiente al año anterior."
+
+      - name: iso_week_of_year
+        data_type: number
+        description: "Número de semana del año según el estándar ISO 8601."
+
+      - name: prior_year_week_of_year
+        data_type: number
+        description: "Número de semana del año correspondiente al año anterior."
+
+      - name: prior_year_iso_week_of_year
+        data_type: number
+        description: "Número de semana del año ISO correspondiente al año anterior."
+
+      - name: month_of_year
+        data_type: number
+        description: "Número del mes en el año."
+
+      - name: month_name
+        data_type: varchar
+        description: "Nombre completo del mes."
+
+      - name: month_name_short
+        data_type: varchar
+        description: "Nombre abreviado del mes."
+
+      - name: month_start_date
+        data_type: date
+        description: "Fecha de inicio del mes."
+
+      - name: month_end_date
+        data_type: date
+        description: "Fecha de fin del mes."
+
+      - name: prior_year_month_start_date
+        data_type: date
+        description: "Fecha de inicio del mes correspondiente al año anterior."
+
+      - name: prior_year_month_end_date
+        data_type: date
+        description: "Fecha de fin del mes correspondiente al año anterior."
+
+      - name: quarter_of_year
+        data_type: number
+        description: "Número del trimestre en el año (1-4)."
+
+      - name: quarter_start_date
+        data_type: date
+        description: "Fecha de inicio del trimestre."
+
+      - name: quarter_end_date
+        data_type: date
+        description: "Fecha de fin del trimestre."
+
+      - name: year_number
+        data_type: number
+        description: "Número del año."
+
+      - name: year_start_date
+        data_type: date
+        description: "Fecha de inicio del año."
+
+      - name: year_end_date
+        data_type: date
+        description: "Fecha de fin del año."
+
+  - name: dim_addresses
+    description: "Staging que alberga las direcciones de usuarios y pedidos"
+    columns:
+      - name: address_id
+        data_type: varchar
+        description: "UUID de cada direccion"
+
+      - name: zipcode
+        data_type: varchar
+        description: "Codigo postal de cada direccion"
+
+      - name: country
+        data_type: varchar
+        description: "Pais en el que está ubicada la dirección"
+
+      - name: address
+        data_type: varchar
+        description: "Numero y calle de la direccion"
+
+      - name: state
+        data_type: varchar
+        description: "Estado donde esta ubicada la direccion"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato"
+
+  
+
+  - name: dim_users_current
+    description: "Dimension que alberga toda la informacion actualizada de los usuarios"
+    columns:
+      - name: user_id
+        data_type: varchar
+        description: "UUID de cada usuario"
+        tests:
+          - unique
+
+      - name: updated_at_utc
+        data_type: timestamp_tz
+        description: "Fecha en que se actualizó la información del usuario"
+
+      - name: address_id
+        data_type: varchar
+        description: "UUID de la dirección asociada al usuario"
+
+      - name: last_name
+        data_type: varchar
+        description: "Apellido del usuario"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que se creó el registro del usuario"
+
+      - name: phone_number
+        data_type: varchar
+        description: "Número de teléfono del usuario"
+
+      - name: first_name
+        data_type: varchar
+        description: "Nombre del usuario"
+
+      - name: email
+        data_type: varchar
+        description: "Correo electrónico del usuario"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+
+  - name: dim_users_historical
+    description: "Dimension que alberga todo el historico de los datos de los usuarios"
+    columns:
+      - name: user_id
+        data_type: varchar
+        description: "UUID de cada usuario"
+
+      - name: updated_at_utc
+        data_type: timestamp_tz
+        description: "Fecha en que se actualizó la información del usuario"
+
+      - name: address_id
+        data_type: varchar
+        description: "UUID de la dirección asociada al usuario"
+
+      - name: last_name
+        data_type: varchar
+        description: "Apellido del usuario"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que se creó el registro del usuario"
+
+      - name: phone_number
+        data_type: varchar
+        description: "Número de teléfono del usuario"
+
+      - name: first_name
+        data_type: varchar
+        description: "Nombre del usuario"
+
+      - name: email
+        data_type: varchar
+        description: "Correo electrónico del usuario"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+      - name: updated_at
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en la snapshot"
+
+      - name: valid_from
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica desde cuando es valido el registro"
+
+      - name: valid_to
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica hasta cuando es valido el registro"
+
+  
+
+  - name: dim_shipping_services
+    description: "Dimension que alberga los servicios de envío que llevan los pedidos"
+    columns:
+      - name: shipping_services_id
+        data_type: varchar
+        description: "UUID para cada servicio de envío"
+
+      - name: description
+        data_type: varchar
+        description: "Nombre del servicio"
+
+  - name: dim_products_current
+    description: "Dimensión qu almacena la información actual de los productos"
+    columns:
+      - name: product_id
+        data_type: varchar
+        description: "Identificador único del producto."
+        tests:
+          - unique
+
+      - name: description
+        data_type: varchar
+        description: "Descripción del producto."
+
+      - name: price
+        data_type: float
+        description: "Precio del producto."
+
+      - name: price_category
+        data_type: varchar
+        description: "Categoría de precio del producto."
+
+      - name: inventory
+        data_type: number
+        description: "Cantidad en inventario del producto."
+
+      - name: inventory_category
+        data_type: varchar
+        description: "Categoria que representa la cantidad del producto."
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+
+  - name: fct_events
+    description: "Tabla de hechos que contiene los eventos generados en el sitio web"
+    columns:
+      - name: event_id
+        data_type: varchar
+        description: "UUID del evento"
+
+      - name: page_url
+        data_type: varchar
+        description: "URL de la página donde ocurrió el evento"
+
+      - name: event_type
+        data_type: varchar
+        description: "Tipo de evento"
+
+      - name: user_id
+        data_type: varchar
+        description: "UUID del usuario que generó el evento"
+
+      - name: product_id
+        data_type: varchar
+        description: "UUID  del producto relacionado con el evento"
+
+      - name: session_id
+        data_type: varchar
+        description: "Identificador de la sesión del usuario cuando ocurrió el evento"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que el evento fue registrado "
+
+      - name: order_id
+        data_type: varchar
+        description: "UUID del pedido relacionado con el evento"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"
+
+  - name: fct_products_in_order
+    description: "Tabla de hechos que alberga toda la informacion de los pedidos y de los productos en ellos"
+    columns:
+      - name: order_item_id
+        data_type: varcha
+        description: "UUID único del artículo dentro del pedido"
+        tests:
+          - not_null
+
+      - name: order_id
+        data_type: varchar
+        description: "UUID del pedido al que pertenece el artículo"
+
+      - name: product_id
+        data_type: varchar
+        description: "UUID del producto incluido en el pedido"
+        tests:
+          - not_null
+
+      - name: quantity
+        data_type: number
+        description: "Cantidad del producto en el pedido"
+
+      - name: promo_id
+        data_type: varchar
+        description: "UUID de la promocion del pedido"
+
+      - name: user_id
+        data_type: varchar
+        description: "UUID del usuario que ha realizado el pedido"
+
+      - name: shipping_service_id
+        data_type: varchar
+        description: "UUID del servicio de envio"
+
+      - name: address_id
+        data_type: varchar
+        description: "UUID de la direccion del pedidio"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en la que se realizo el pedido"
+
+      - name: delivery_id
+        data_type: varchar
+        description: "UUID de la entrega"
+
+      - name: status
+        data_type: varchar
+        description: "Estado del pedido"
+
+      - name: order_shipping_cost
+        data_type: float
+        description: "Coste del envio a nivel de pedido"
+
+      - name: order_cost
+        data_type: float
+        description: "Coste del pedido sin promocion ni envio"
+
+      - name: order_total
+        data_type: float
+        description: "Coste total del pedido"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"

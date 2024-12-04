@@ -1,58 +1,44 @@
-WITH stg_addresses as (
+{{ 
+    config(
+    materialized='view',
+    ) 
+}}
+
+WITH dim_addresses as (
     SELECT   *
-    FROM {{ ref('stg_sql_server_dbo__addresses') }}
+    FROM {{ ref('dim_addresses') }}
 ),
 
-stg_orders as (
+dim_users as (
     SELECT  *
-    FROM {{ref('stg_sql_server_dbo__orders')}}
+    FROM {{ref('dim_users_current')}}
 ),
 
-stg_users as (
+dim_promos as (
     SELECT  *
-    FROM {{ref('stg_sql_server_dbo__users')}}
+    FROM {{ref('dim_promos')}}
 ),
 
-stg_promos as (
+fct_products_in_order as (
     SELECT  *
-    FROM {{ref('stg_sql_server_dbo__promos')}}
-),
-
-stg_puente as (
-    SELECT  *
-    FROM {{ref('stg_sql_server_dbo__order_bridge')}}
-),
-
-stg_order_items as (
-    SELECT  *
-    FROM {{ref('stg_sql_server_dbo__order_items')}}
+    FROM {{ref('fct_products_in_order')}}
 ),
 
 grouped_orders as (
     select 
         user_id
         , count(*) as total_number_orders
-        , sum(pu.order_total) as total_order_cost
-        , sum(pu.shipping_cost) as total_shipping_cost
+        , sum(quantity) as total_products
+        , count(distinct product_id) as total_diff_products
+        , sum(order_total) as total_order_cost
+        , sum(order_shipping_cost) as total_shipping_cost
         , sum(discount) as total_discount
-    from stg_orders ord
-    join stg_puente pu 
-    on ord.order_id = pu.order_id
-    join stg_promos pro 
+    from fct_products_in_order ord
+    join dim_promos pro 
     on ord.promo_id = pro.promo_id
     group by user_id
 ),
 
-grouped_order_items as (
-    select 
-        user_id
-        , sum(quantity) as total_products
-        , count(distinct product_id) as total_diff_products
-    from stg_orders ord
-    join stg_order_items ordi
-    on ordi.order_id = ord.order_id
-    group by user_id
-),
 
 users_orders as (
     select 
@@ -73,13 +59,11 @@ users_orders as (
         , total_discount
         , total_products
         , total_diff_products
-    from stg_users us
-    join stg_addresses ad
+    from dim_users us
+    join dim_addresses ad
     on us.address_id = ad.address_id
     join grouped_orders gord
     on us.user_id = gord.user_id
-    join grouped_order_items gitem
-    on us.user_id = gitem.user_id
 )
 
 select * from users_orders

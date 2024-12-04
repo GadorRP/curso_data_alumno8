@@ -1,3 +1,10 @@
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'address_id'
+    ) 
+}}
+
 WITH src_addresses AS (
     SELECT * 
     FROM {{ source('sql_server_dbo', 'addresses') }}
@@ -6,7 +13,7 @@ WITH src_addresses AS (
 silver_addresses AS (
     SELECT
         address_id
-        ,  lower(zipcode) as zipcode
+        ,  zipcode
         ,  lower(country) as country
         ,  lower(address) as address
         ,  lower(state) as state
@@ -16,3 +23,9 @@ silver_addresses AS (
     )
 
 SELECT * FROM silver_addresses
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

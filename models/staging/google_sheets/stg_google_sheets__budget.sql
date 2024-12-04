@@ -1,4 +1,9 @@
-
+{{ 
+    config(
+    materialized='incremental',
+    unique_key = 'budget_id'
+    ) 
+}}
 
 WITH src_budget AS (
     SELECT * 
@@ -7,14 +12,18 @@ WITH src_budget AS (
 
 renamed_casted AS (
     SELECT
-          _row as budget_id
+        {{ dbt_utils.generate_surrogate_key(['_row','product_id','month']) }} as budget_id
         , product_id
-        , CASE WHEN quantity = null THEN 0 
-               WHEN quantity < 0 THEN abs(quantity)
-               ELSE quantity END as quantity
+        , {{ set_positive_values('quantity') }} as quantity
         , convert_timezone('UTC', month) as month_utc
         , convert_timezone('UTC', _fivetran_synced) as date_load_utc
     FROM src_budget
     )
 
 SELECT * FROM renamed_casted
+
+{% if is_incremental() %}
+
+    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}

@@ -1,0 +1,39 @@
+version: 2
+
+models:
+
+    - name: dim_deliveries
+      description: "Dimensión que almacena información de las entregas."
+      columns:
+          - name: delivery_id
+            data_type: varchar
+            description: "Identificador único de la entrega"
+            tests:
+              - not_null
+              - unique
+
+          - name: estimated_delivery_at_utc
+            data_type: timestamp_tz
+            description: "Fecha y hora estimada de entrega en UTC"
+
+          - name: delivered_at_utc
+            data_type: timestamp_tz
+            description: "Fecha y hora real de entrega en UTC"
+
+          - name: days_variation_from_estimated
+            data_type: number
+            description: "Variación en días respecto a la fecha estimada de entrega"
+
+          - name: delivery_status
+            data_type: varchar
+            description: "Estado actual de la entrega"
+            tests:
+              - not_null
+
+          - name: is_deleted
+            data_type: boolean
+            description: "Representa si ha sido eliminado el registro"
+
+          - name: date_load_utc
+            data_type: timestamp_tz
+            description: "Fecha y hora que indica cuando se cargó el dato en origen"

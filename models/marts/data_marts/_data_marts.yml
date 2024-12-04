@@ -1,0 +1,281 @@
+
+
+version: 2
+
+models:
+  - name: shipping_services_deliveries
+    description: "Vista que muestra si las entregas realizadas se han hecho a tiempo, el promedio de días de retraso o adelanto, desglosado por servicio de envío."
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "deliveries_in_day + deliveries_before_estimated + deliveries_after_estimated = total_deliveries"
+
+    
+    columns:
+      - name: shipping_service
+        description: "Nombre del servicio de envío."
+        data_type: string
+
+      - name: deliveries_in_day
+        description: "Número total de entregas realizadas en el día estimado."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: deliveries_before_estimated
+        description: "Número total de entregas realizadas antes del día estimado."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: deliveries_after_estimated
+        description: "Número total de entregas realizadas después del día estimado."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: total_deliveries
+        description: "Número total de entregas realizadas por ese servicio"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: average_days_after
+        description: "Promedio de días de retraso para entregas realizadas después del día estimado."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: average_days_before
+        description: "Promedio de días de adelanto para entregas realizadas antes del día estimado."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+
+  - name: last_event_sessions
+    description: "Calcula las tasas de conversión por tipo de evento en las sesiones de usuarios."
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "last_event_page_view + last_event_add_to_cart + last_event_checkout + last_event_package_shipped = total_sessions"
+
+    columns:
+      - name: total_sessions
+        description: "Número total de sesiones distintas registradas."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: last_event_page_view
+        description: "Sesiones donde el último evento fue el evento page_view"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: percentage_end_page_view
+        description: "Porcentaje de sesiones con el último evento siendo page_view"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              
+
+      - name: last_event_add_to_cart
+        description: "Sesiones donde el último evento fue el evento add_to_cart"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: percentage_end_add_cart
+        description: "Porcentaje de sesiones con el último evento siendo add_to_cart"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              
+
+      - name: last_event_checkout
+        description: "Sesiones donde el último evento fue el evento checkout"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: percentage_end_checkout
+        description: "Porcentaje de sesiones con el último evento siendo checkout"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              
+
+      - name: last_event_package_shipped
+        description: "Sesiones donde el último evento fue fue el evento package_shipped"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: percentage_end_package_shipped
+        description: "Porcentaje de sesiones con el último evento siendo package_shipped"
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              
+
+  - name: promos_orders
+    description: "Vista que evalúa la eficiencia de las promociones, mostrando estadísticas como el porcentaje medio de descuento aplicado y el impacto en los pedidos."
+    columns:
+      - name: promotion
+        description: "Nombre de la promoción aplicada a los pedidos."
+        data_type: varchar
+
+      - name: discount_applied
+        description: "Valor del descuento aplicado para la promoción."
+        data_type: number
+
+      - name: num_orders
+        description: "Número total de pedidos que utilizaron la promoción."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: total_discounted
+        description: "Valor total rebajado como resultado de aplicar la promoción en todos los pedidos."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: avg_order_cost
+        description: "Costo promedio de los pedidos que utilizaron la promoción."
+        data_type: number
+
+      - name: percentage_discount
+        description: "Porcentaje medio de descuento aplicado en los pedidos en relación al costo total de los mismos."
+        data_type: number
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              
+
+  - name: budget_inventory
+    description: "Vista que muestra las ventas de los productos y su comparación con el presupuesto por mes"
+    columns:
+      - name: year
+        description: "Año del registro"
+        data_type: integer
+
+      - name: month
+        description: "Nombre del mes correspondiente al registro."
+        data_type: varchar
+
+      - name: month_number
+        description: "Número del mes en el año (1-12)."
+        data_type: integer
+
+      - name: product
+        description: "Nombre del producto vendido o presupuestado."
+        data_type: varchar
+
+      - name: units_sold
+        description: "Cantidad total de unidades vendidas del producto en el mes correspondiente."
+        data_type: integer
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              
+
+      - name: units_budget
+        description: "Cantidad presupuestada de unidades para el producto en el mes correspondiente."
+        data_type: integer
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+        
+
+  - name: products_sold
+    description: "Vista que muestra las ventas de productos, incluyendo unidades vendidas, ganancias y categoría de precio."
+    columns:
+      - name: product
+        description: "Nombre del producto"
+        data_type: varchar
+
+      - name: price
+        description: "Precio registrado para el producto."
+        data_type: decimal
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: num_orders
+        description: "Cantidad total de pedidos que incluyen el producto."
+        data_type: integer
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: units_sold
+        description: "Cantidad total de unidades vendidas del producto."
+        data_type: integer
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: profits
+        description: "Ingresos totales obtenidos por la venta del producto (precio multiplicado por unidades vendidas)."
+        data_type: decimal
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: price_category
+        description: "Categoría de precio a la que pertenece el producto  (low, medium, high)."
+        data_type: varchar
+
+
+  - name: difference_between_events
+    description: "Vista que calcula el tiempo promedio en minutos entre eventos consecutivos en una sesión."
+    columns:
+      - name: first_event
+        description: "El tipo de evento que ocurre primero en la secuencia."
+        data_type: varchar
+
+      - name: second_event
+        description: "El tipo de evento que ocurre inmediatamente después del primer evento en la secuencia."
+        data_type: varchar
+
+      - name: avg_minutes
+        description: "Tiempo promedio, en minutos, entre el primer y segundo evento dentro de una misma sesión."
+        data_type: decimal
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0

@@ -1,0 +1,124 @@
+version: 2
+
+models:
+
+  - name: fct_budget
+    description: "Tabla de hechos que alberga las unidades pedidas por mes de cada producto"
+    columns:
+        - name: budget_id
+          data_type: number
+          description: "UUID surrogada para identificar cada presupuesto"
+    
+        - name: product_id
+          data_type: varchar
+          description: "UUID para cada producto de la plataforma"
+        
+        - name: quantity
+          data_type: number
+          description: "Numero de unidades para cada producto cada mes"
+
+        - name: month_utc
+          data_type: timestamp_tz
+          description: "Cada mes del presupuesto -> Ultimo dia del mes"
+
+        - name: date_load_utc
+          data_type: timestamp_tz
+          description: "Fecha en la que se cargo el dato"
+
+  - name: dim_products_historical
+    description: "Dimension que alberga todo el histórico de los productos"
+    columns:
+      - name: product_id
+        data_type: varchar
+        description: "Identificador único del producto."
+
+      - name: description
+        data_type: varchar
+        description: "Descripción del producto."
+
+      - name: price
+        data_type: float
+        description: "Precio del producto."
+
+      - name: price_category
+        data_type: varchar
+        description: "Categoría de precio del producto."
+
+      - name: inventory
+        data_type: number
+        description: "Cantidad en inventario del producto."
+
+      - name: inventory_category
+        data_type: varchar
+        description: "Categoria que representa la cantidad del producto."
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en origen"
+
+      - name: updated_at
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica cuando se cargó el dato en la snapshot"
+
+      - name: valid_from
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica desde cuando es valido el registro"
+
+      - name: valid_to
+        data_type: timestamp_tz
+        description: "Fecha y hora que indica hasta cuando es valido el registro"
+
+
+  - name: user_events_sessions
+    description: "Vista que calcula la duración de las sesiones de los usuarios y sus interacciones con la web"
+    config:
+      materialized: view
+
+    columns:
+      - name: session_id
+        description: "ID único de la sesión de usuario."
+        data_type: varchar
+
+      - name: user_id
+        description: "ID único del usuario."
+        data_type: varchar
+
+      - name: first_name
+        description: "Primer nombre del usuario."
+        data_type: varchar
+
+      - name: email
+        description: "Correo electrónico del usuario."
+        data_type: varchar
+
+      - name: first_event_time_utc
+        description: "Hora del primer evento registrado en la sesión."
+        data_type: timestamp_tz
+
+      - name: last_event_time_utc
+        description: "Hora del último evento registrado en la sesión."
+        data_type: timestamp_tz
+
+      - name: session_lenght_minutes
+        description: "Duración de la sesión en minutos, calculada como la diferencia entre el primer y último evento."
+        data_type: number
+
+      - name: page_view
+        description: "Número de veces que el usuario vio una página durante la sesión."
+        data_type: number
+
+      - name: add_to_cart
+        description: "Número de veces que el usuario agregó productos al carrito durante la sesión."
+        data_type: number
+
+      - name: checkout
+        description: "Número de veces que el usuario realizó el proceso de checkout durante la sesión."
+        data_type: number
+
+      - name: package_shipped
+        description: "Número de veces que el usuario completó el envío del paquete durante la sesión."
+        data_type: number

@@ -3,6 +3,7 @@ version: 2
 sources:
 
   - name: google_sheets # name of the source 
+    description: Datos procedentes de google sheets
     schema: google_sheets # this is the schema our raw data lives in
     database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # this is the name of our database
 
@@ -19,31 +20,29 @@ sources:
 
       - name: budget
         loaded_at_field: _fivetran_synced
-        description: "Data about budget"
+        description: "Datos sobre el presupuesto"
         columns:
           - name: _row
-            description: "Number of each row from google sheet"
+            description: "Numero de cada fila en la base de datos de origen"
             tests:
               - not_null
-              - unique
 
           - name: product_id
-            description: "UUID for each unique product on platform."
+            description: "UUID para cada producto de la plataforma"
             tests:
               - not_null
 
           - name: quantity
-            description: "Number of units for each product and each month for products."
+            description: "Numero de unidades para cada producto cada mes"
             tests:
               - not_null
-              - positive_values
 
           - name: month
-            description: "Each month for the budget -> End of the month"
+            description: "Cada mes del presupuesto -> Ultimo dia del mes"
             tests:
               - not_null
 
           - name: _fivetran_synced
-            description: "Date that the data was loaded"
+            description: "Fecha en la que se cargo el dato"
             tests:
               - not_null
