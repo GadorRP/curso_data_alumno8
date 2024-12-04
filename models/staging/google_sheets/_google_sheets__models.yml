@@ -3,6 +3,12 @@ version: 2
 models:
   - name: stg_google_sheets__budget
     description: "Staging con datos sobre las unidades de cada producto por mes"
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        combination_of_columns:
+          - month_utc
+          - product_id
+
     columns:
       - name: budget_id
         data_type: number

@@ -52,6 +52,7 @@ shipping_services_deliveries as (
         , SUM(deliverys_in_day) as deliveries_in_day
         , SUM(deliverys_before) as deliveries_before_estimated
         , SUM(deliverys_after) as deliveries_after_estimated
+        , deliveries_in_day + deliveries_after_estimated + deliveries_before_estimated as total_deliveries 
         , AVG(days_after) as average_days_after
         , AVG(days_before) as average_days_before
     FROM calculate_deliverys cal

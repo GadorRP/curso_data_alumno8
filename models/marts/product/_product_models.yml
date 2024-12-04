@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: user_events_sessions
+    description: "Vista que calcula la duración de las sesiones de los usuarios y sus interacciones con la web"
+    config:
+      materialized: view
+
+    columns:
+      - name: session_id
+        description: "ID único de la sesión de usuario."
+        data_type: varchar
+
+      - name: user_id
+        description: "ID único del usuario."
+        data_type: varchar
+
+      - name: first_name
+        description: "Primer nombre del usuario."
+        data_type: varchar
+
+      - name: email
+        description: "Correo electrónico del usuario."
+        data_type: varchar
+
+      - name: first_event_time_utc
+        description: "Hora del primer evento registrado en la sesión."
+        data_type: timestamp_tz
+
+      - name: last_event_time_utc
+        description: "Hora del último evento registrado en la sesión."
+        data_type: timestamp_tz
+
+      - name: session_lenght_minutes
+        description: "Duración de la sesión en minutos, calculada como la diferencia entre el primer y último evento."
+        data_type: number
+
+      - name: page_view
+        description: "Número de veces que el usuario vio una página durante la sesión."
+        data_type: number
+
+      - name: add_to_cart
+        description: "Número de veces que el usuario agregó productos al carrito durante la sesión."
+        data_type: number
+
+      - name: checkout
+        description: "Número de veces que el usuario realizó el proceso de checkout durante la sesión."
+        data_type: number
+
+      - name: package_shipped
+        description: "Número de veces que el usuario completó el envío del paquete durante la sesión."
+        data_type: number

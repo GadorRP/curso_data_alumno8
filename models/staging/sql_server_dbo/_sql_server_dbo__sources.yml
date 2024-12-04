@@ -4,7 +4,7 @@ sources:
   - name: sql_server_dbo # name of the source
     schema: sql_server_dbo # this is the schema our raw data lives in
     database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # this is the name of our database
-    description: ""
+    description: Fuente procedente de sql server
 
     quoting:
       database: false
@@ -17,7 +17,7 @@ sources:
 
     tables:
       - name: addresses
-        description: ""
+        description: "Fuente de datos que contiene las direcciones de los pedidos y de los usuarios"
         loaded_at_field: _fivetran_synced
         columns:
           - name: address_id
@@ -321,22 +321,22 @@ sources:
               - not_null
 
       - name: users
-        description: ""
+        description: "Fuente de los datos de los usuarios"
         loaded_at_field: _fivetran_synced
         columns:
           - name: user_id
             data_type: varchar
-            description: ""
+            description: "UUID del usuario"
             tests:
               - not_null
 
           - name: updated_at
             data_type: timestamp_tz
-            description: ""
+            description: "Indica cuando el usuario actualizo sus datos"
 
           - name: address_id
             data_type: varchar
-            description: ""
+            description: "Direccion del usuario"
             tests:
               - relationships:
                     field: address_id
@@ -344,29 +344,29 @@ sources:
 
           - name: last_name
             data_type: varchar
-            description: ""
+            description: "Apellido del usuario"
 
           - name: created_at
             data_type: timestamp_tz
-            description: ""
+            description: "Fecha y hora cuando se creo el usuario"
             tests:
               - not_null
 
           - name: phone_number
             data_type: varchar
-            description: ""
+            description: "Numero de telefono del usuario"
 
           - name: total_orders
             data_type: number
-            description: ""
+            description: "Numero de pedidos del usuario"
 
           - name: first_name
             data_type: varchar
-            description: ""
+            description: "Nombre del usuario"
 
           - name: email
             data_type: varchar
-            description: ""
+            description: "Email del usuario"
 
           - name: _fivetran_deleted
             data_type: boolean

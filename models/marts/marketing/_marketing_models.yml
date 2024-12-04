@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: users_orders
+    description: "Esta vista contiene datos de los usuarios y sus pedidos"
+    config:
+      materialized: view
+
+    columns:
+      - name: user_id
+        description: "ID único del usuario."
+        data_type: varchar
+
+      - name: first_name
+        description: "Primer nombre del usuario."
+        data_type: varchar
+
+      - name: last_name
+        description: "Apellido del usuario."
+        data_type: varchar
+
+      - name: email
+        description: "Correo electrónico del usuario."
+        data_type: varchar
+
+      - name: phone_number
+        description: "Número de teléfono del usuario."
+        data_type: varchar
+
+      - name: created_at_utc
+        description: "Fecha de creación de la cuenta del usuario."
+        data_type: timestamp_tz
+
+      - name: updated_at_utc
+        description: "Fecha de la última actualización de la cuenta del usuario."
+        data_type: timestamp_tz
+
+      - name: address
+        description: "Dirección asociada al usuario."
+        data_type: varchar
+
+      - name: zipcode
+        description: "Código postal de la dirección del usuario."
+        data_type: varchar
+
+      - name: state
+        description: "Estado de la dirección del usuario."
+        data_type: varchar
+
+      - name: country
+        description: "País de la dirección del usuario."
+        data_type: varchar
+
+      - name: total_number_orders
+        description: "Número total de pedidos realizadas por el usuario."
+        data_type: number
+
+      - name: total_order_cost
+        description: "Costo total de los pedidos del usuario."
+        data_type: number
+
+      - name: total_shipping_cost
+        description: "Costo total del envío de las órdenes del usuario."
+        data_type: number
+
+      - name: total_discount
+        description: "Descuento total aplicado a los pedidos del usuario."
+        data_type: number
+
+      - name: total_products
+        description: "Número total de productos adquiridos por el usuario."
+        data_type: number
+
+      - name: total_diff_products
+        description: "Número de productos diferentes comprados por el usuario."
+        data_type: number

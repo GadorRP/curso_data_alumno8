@@ -66,9 +66,8 @@ budget_inventory as (
         , month
         , month_number
         , coalesce(producto,'no_product') as product
-        , pro.product_id
-        , unidades_vendidas as units_sold
-        , quantity as units_budget
+        , coalesce(unidades_vendidas,0) as units_sold
+        , coalesce(quantity,0) as units_budget
     FROM products_sold pro
     LEFT JOIN fct_budget bud 
     ON pro.year = year(bud.month_utc)

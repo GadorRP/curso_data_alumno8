@@ -181,6 +181,7 @@ models:
 
   - name: stg_sql_server_dbo__orders
     description: "Staging que alberga la información sobre los pedidos"
+
     columns:
       - name: order_id
         data_type: varchar

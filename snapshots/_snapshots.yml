@@ -1,6 +1,6 @@
 version: 2
 
-models:
+snapshots:
   - name: products_snp
     description: "Snapshot de los productos"
     columns:

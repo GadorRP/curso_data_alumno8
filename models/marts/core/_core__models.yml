@@ -449,7 +449,6 @@ models:
         data_type: varchar
         description: "UUID para cada producto de la plataforma"
       
-
       - name: quantity
         data_type: number
         description: "Numero de unidades para cada producto cada mes"
@@ -511,6 +510,8 @@ models:
       - name: order_item_id
         data_type: varcha
         description: "UUID único del artículo dentro del pedido"
+        tests:
+          - not_null
 
       - name: order_id
         data_type: varchar
@@ -519,6 +520,8 @@ models:
       - name: product_id
         data_type: varchar
         description: "UUID del producto incluido en el pedido"
+        tests:
+          - not_null
 
       - name: quantity
         data_type: number

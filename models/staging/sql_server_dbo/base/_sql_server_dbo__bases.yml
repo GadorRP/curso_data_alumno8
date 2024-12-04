@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: base_sql_server_dbo__orders
+    description: "Base utilizada para hacer transformaciones necesarias antes del staging"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "order_cost + shipping_cost = order_total"
+          config:
+            where: "promo_id = ''"
+
+    columns:
+      - name: order_id
+        data_type: varchar
+        description: "UUID del pedido"
+        tests:
+          - unique
+
+      - name: shipping_service
+        data_type: varchar
+        description: Nombre del servicio de envio
+        tests:
+          - not_null
+
+      - name: shipping_cost
+        data_type: float
+        description: "Costo del envío del pedido"
+
+      - name: address_id
+        data_type: varchar
+        description: "UUID de la dirección de envío asociada al pedido"
+
+      - name: created_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que el pedido fue creado"
+
+      - name: promo_id
+        data_type: varchar
+        description: "UUID de la promoción aplicada al pedido"
+
+      - name: estimated_delivery_at_utc
+        data_type: timestamp_tz
+        description: "Fecha estimada de entrega del pedido"
+
+      - name: order_cost
+        data_type: float
+        description: "Costo total del pedido (sin contar el envío)"
+
+      - name: user_id
+        data_type: varchar
+        description: "UUID  del usuario que realizó el pedido"
+        
+      - name: order_total
+        data_type: float
+        description: "Total del pedido, incluyendo el costo del pedido y el envío"
+
+      - name: delivered_at_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora en que el pedido fue entregado"
+
+      - name: tracking_id
+        data_type: varchar
+        description: "Identificador de seguimiento del pedido"
+
+      - name: status
+        data_type: varchar
+        description: "Estado actual del pedido (pendiente, enviado, entregado, etc.)"
+
+      - name: is_deleted
+        data_type: boolean
+        description: "Representa si ha sido eliminado el registro"
+
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Fecha y hora cuando se cargó el dato"

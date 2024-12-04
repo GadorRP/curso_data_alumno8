@@ -3,6 +3,7 @@ version: 2
 sources:
 
   - name: google_sheets # name of the source 
+    description: Datos procedentes de google sheets
     schema: google_sheets # this is the schema our raw data lives in
     database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # this is the name of our database
 
@@ -19,7 +20,7 @@ sources:
 
       - name: budget
         loaded_at_field: _fivetran_synced
-        description: "Datos sobre el presupuestot"
+        description: "Datos sobre el presupuesto"
         columns:
           - name: _row
             description: "Numero de cada fila en la base de datos de origen"
