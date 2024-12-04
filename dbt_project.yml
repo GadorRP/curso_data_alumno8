@@ -55,6 +55,10 @@ models:
         +schema: marketing
       product:
         +schema: product
+      data_marts:
+        +schema: data_marts
+      operations:
+        +schema: operations
 
 seeds:
   +schema: seed_data
