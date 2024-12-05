@@ -35,7 +35,7 @@ event_durations AS (
     FROM ranked_events rank_a
     JOIN ranked_events rank_b 
     ON rank_a.session_id = rank_b.session_id
-        AND rank_a.event_rank = rank_b.event_rank - 1
+    AND rank_a.event_rank = rank_b.event_rank - 1
 ),
 
 difference_between_events as (

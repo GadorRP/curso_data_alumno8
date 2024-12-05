@@ -1,7 +1,7 @@
 {{ 
     config(
     materialized='incremental',
-    unique_key = 'product_id'
+    unique_key = 'id_historico'
     ) 
 }}
 
@@ -25,6 +25,7 @@ dim_products_historical as (
             ELSE 'high' END AS inventory_category
         , is_deleted
         , date_load_utc
+        , DBT_SCD_ID as id_historico
         , DBT_UPDATED_AT as updated_at
         , DBT_VALID_FROM as valid_from
         , DBT_VALID_TO as valid_to
@@ -36,6 +37,6 @@ SELECT * FROM dim_products_historical
 
 {% if is_incremental() %}
 
-    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+    where updated_at > (select max(updated_at) from {{ this }} )
 
 {% endif %}
