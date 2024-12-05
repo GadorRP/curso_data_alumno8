@@ -1,7 +1,7 @@
 {{ 
     config(
     materialized='incremental',
-    unique_key = 'product_id'
+    unique_key = 'DBT_SCD_ID'
     ) 
 }}
 
@@ -30,6 +30,6 @@ SELECT * FROM silver_products
 
 {% if is_incremental() %}
 
-    where date_load_utc > (select max(date_load_utc) from {{ this }} )
+    where DBT_UPDATED_AT > (select max(DBT_UPDATED_AT) from {{ this }} )
 
 {% endif %}
